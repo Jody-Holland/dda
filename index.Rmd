@@ -1,19 +1,19 @@
 ---
-title: ""
+title: <span style="color:#FFD100">**Palau Demographics**<span>
 output: 
   rmdformats::material:
     css: custom.css
 ---
 
-![](https://www.rug.nl/about-ug/practical-matters/huisstijl/logobank-new/logo-faculteiten/rugr_frw_logoen_zwart_rgb.jpg)
-
 # Introduction
 
-This site is a compendium of the data and code used for analysis of the demographics of Palau as part of the "Demographic Data and Analysis" (GEMDDA) course within the Factualty of Spatial Sciences at the University of Groningen. On this site you will find links to RMarkdown Workbooks outlining the code used to compute various demographic calculations and visualustions, links to the raw data in .csv form, and links to downloadable Excel worksheets outlining how to compute these demographic calculations and visualustions in a conventional spreadsheet software.
+This site is a compendium of the data and code used for analysis of the demographics of Palau as part of the "Demographic Data and Analysis" (GEMDDA) course within the Faculty of Spatial Sciences at the University of Groningen. On this site you will find links to RMarkdown Workbooks outlining the code used to compute various demographic calculations and visualustions, links to the raw data in .csv form, and links to downloadable Excel worksheets outlining how to compute these demographic calculations and visualustions in a conventional spreadsheet software.
 
 # About Palau
 
 Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+
+![](https://i.pinimg.com/736x/06/78/c8/0678c84a3b633ffe494755e33740cb9f--hard-coral-beautiful-rocks.jpg)
 
 # RMarkdown Workbooks
 
