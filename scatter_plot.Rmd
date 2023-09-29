@@ -47,7 +47,7 @@ ggplot(data, aes(x = estimated_year,
   geom_line() +
   labs(x = "Estimated Year",
        y = "Estimated TFR",
-       title = "Scatterplot of TFR Estimates of Palau 1950-",
+       title = "Scatterplot of TFR Estimates of Palau 1950-2020",
        color = "") +
   theme_minimal() +
   theme(legend.position = "bottom",
