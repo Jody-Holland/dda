@@ -1,0 +1,60 @@
+---
+title: <span style="color:#FFD100">**Scatter Plot of TFR Estimates**<span>
+output: 
+  rmdformats::material:
+    css: custom.css
+bibliography: references.bib
+---
+
+# Introduction
+
+In this short workbook, we outline how using R we can visualise and compare the various computations of the Palau TFR overtime. The data source is the World Population Prospects, @unitednations2022
+
+[![](images/paste-3A06C110.png)](https://population.un.org/wpp/)
+
+# Code
+
+Below is the code used to build the scatter plot comparison.
+
+## Loading the Packages
+
+First we load the tidyverse library of R packages [@tidyverse], which includes the ggplot2() package [@ggplot2] and the dplyr() package [@dplyr]
+
+```{r load_packages, warning=FALSE, echo=FALSE}
+library(tidyverse)
+```
+
+## Loading the data
+
+Next we load our .csv data into R as a tibble object. The tibble has four columns: "data_souce, estimate_method, estimated_tfr, estimated_year"
+
+```{r load_data}
+data = read_csv("data/tfr_estimates.csv") %>%
+  as_tibble()
+```
+
+## Plot Scatter
+
+Finally, we use ggplot2() to compute a static data visualisation
+
+```{r plot_static, fig.width=10,fig.height=15}
+# create the scatter plot
+ggplot(data, aes(x = estimated_year,
+                 y = estimated_tfr,
+                 color = interaction(estimate_method,
+                                     data_source))) +
+  geom_point() +
+  geom_line() +
+  labs(x = "Estimated Year",
+       y = "Estimated TFR",
+       title = "Scatterplot of TFR Estimates of Palau 1950-",
+       color = "") +
+  theme_minimal() +
+  theme(legend.position = "bottom",
+        legend.box="vertical", legend.margin=margin()) +
+    guides(color=guide_legend(nrow=15, byrow=TRUE))
+```
+
+# Homepage
+## [Return to Homepage](index.html)
+# Bibliography

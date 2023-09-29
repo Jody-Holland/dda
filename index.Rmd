@@ -19,7 +19,7 @@ Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor i
 
 ## Animated Population Tree of Palau
 
-## Scatter Plot of TFR estimates
+## [Scatter Plot of TFR Estimates](scatter_plot.html)
 
 # Excel Workbooks
 

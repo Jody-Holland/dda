@@ -1,0 +1,550 @@
+﻿data_source,estimate_method,estimated_tfr,estimated_year
+1967 Census,Reverse survival method,9.143115044,1960
+1967 Census,Reverse survival method,9.124650955,1962
+1967 Census,Reverse survival method,9.121545792,1961
+1967 Census,Reverse survival method,9.094526291,1960
+1967 Census,Own-children method,9.093999863,1961
+1967 Census,Reverse survival method,9.040523529,1959
+1967 Census,Reverse survival method,9.025521278,1963
+1967 Census,Own-children method,8.981699944,1963
+1967 Census,Reverse survival method,8.963942528,1958
+1967 Census,Reverse survival method,8.868436813,1957
+1967 Census,Reverse survival method,8.831377983,1964
+1973 Census,Own-children method,8.814700127,1965
+1973 Census,Reverse survival method,8.780582428,1964
+1973 Census,Reverse survival method,8.771983147,1963
+1967 Census,Reverse survival method,8.757390976,1956
+1973 Census,Reverse survival method,8.728909492,1965
+1973 Census,Reverse survival method,8.713320732,1962
+1973 Census,Reverse survival method,8.682545662,1966
+1967 Census,Reverse survival method,8.677371979,1955
+1973 Census,Reverse survival method,8.676168442,1961
+1980 Census,Own-children method,8.645000458,1966
+1973 Census,Reverse survival method,8.633433342,1961
+1973 Census,Reverse survival method,8.631320953,1966
+1967 Census,Reverse survival method,8.626462936,1955
+1967 Census,Reverse survival method,8.62618351,1965
+1967 Census,Own-children method,8.621299744,1962
+1967 Census,Own-children method,8.596699715,1964
+1973 Census,Own-children method,8.590299606,1966
+1973 Census,Own-children method,8.590000153,1964
+1973 Census,Own-children method,8.572199821,1964
+1967 Census,Own-children method,8.548500061,1960
+1973 Census,Reverse survival method,8.529989243,1960
+1973 Census,Own-children method,8.515899658,1967
+1967 Census,Own-children method,8.497400284,1965
+1973 Census,Reverse survival method,8.48168087,1967
+1967 Census,Reverse survival method,8.472067833,1965
+1973 Census,Own-children method,8.470000267,1966
+1967 Census,Own-children method,8.468299866,1960
+1967 Census,Reverse survival method,8.463393211,1954
+1973 Census,Own-children method,8.426199913,1966
+1967 Census,Reverse survival method,8.414548874,1966
+1973 Census,Reverse survival method,8.404681206,1959
+1973 Census,Own-children method,8.368599892,1960
+1980 Census,Own-children method,8.336799622,1967
+1973 Census,Own-children method,8.298800468,1962
+1970 Census,Reverse survival method,8.295955658,1958
+1967 Census,Own-children method,8.294300079,1956
+1973 Census,Reverse survival method,8.280812263,1968
+1967 Census,Reverse survival method,8.261530876,1953
+1973 Census,Own-children method,8.256299973,1963
+1970 Census,Reverse survival method,8.202254295,1959
+1970 Census,Reverse survival method,8.197795868,1958
+1970 Census,Reverse survival method,8.179573059,1960
+1973 Census,Own-children method,8.165300369,1971
+1970 Census,Reverse survival method,8.152859688,1957
+1967 Census,Own-children method,8.146300316,1959
+1970 Census,Reverse survival method,8.124939919,1961
+1967 Census,Own-children method,8.12250042,1957
+1973 Census,Own-children method,8.104100227,1961
+1970 Census,Reverse survival method,8.062138557,1956
+1967 Census,Own-children method,8.061100006,1955
+1970 Census,Reverse survival method,8.04265213,1962
+1970 Census,Reverse survival method,7.978821278,1963
+1970 Census,Reverse survival method,7.953528404,1963
+1980 Census,Reverse survival method,7.947098255,1966
+1973 Census,Reverse survival method,7.932923317,1969
+1967 Census,Own-children method,7.931099892,1958
+1967 Census,Reverse survival method,7.924655437,1967
+1967 Census,Own-children method,7.910299778,1955
+1980 Census,Reverse survival method,7.886154652,1967
+1967 Census,Own-children method,7.877399921,1965
+1967 Census,Own-children method,7.875500202,1954
+1970 Census,Reverse survival method,7.85975647,1964
+1980 Census,Own-children method,7.856500149,1968
+1980 Census,Reverse survival method,7.817937851,1968
+1980 Census,Reverse survival method,7.783486366,1968
+1970 Census,Reverse survival method,7.766676426,1965
+1980 Census,Own-children method,7.763599873,1968
+1973 Census,Own-children method,7.7427001,1968
+1973 Census,Own-children method,7.698500156,1959
+1980 Census,Reverse survival method,7.640704155,1969
+1970 Census,Reverse survival method,7.600869179,1966
+1967 Census,Own-children method,7.582300186,1967
+1980 Census,Own-children method,7.503200054,1969
+1980 Census,Reverse survival method,7.468481541,1970
+1973 Census,Reverse survival method,7.461221695,1970
+1958 Census,Reverse survival method,7.449928284,1953
+1958 Census,Reverse survival method,7.39768362,1952
+1970 Census,Reverse survival method,7.369046211,1967
+1958 Census,Reverse survival method,7.360166073,1954
+1973 Census,Own-children method,7.25,1969
+1980 Census,Reverse survival method,7.23097086,1971
+1980 Census,Own-children method,7.230100155,1973
+1973 Census,Own-children method,7.230000019,1969
+1958 Census,Reverse survival method,7.221587181,1951
+1967 Census,Own-children method,7.152800083,1953
+1970 Census,Reverse survival method,7.151245117,1968
+1958 Census,Reverse survival method,7.129223824,1955
+1970 Census,Reverse survival method,7.047059059,1968
+1973 Census,Reverse survival method,6.973685741,1971
+1980 Census,Own-children method,6.96089983,1974
+1970 Census,Reverse survival method,6.949409962,1969
+1980 Census,Reverse survival method,6.935609818,1972
+1973 Census,Own-children method,6.923500061,1974
+1973 Census,Reverse survival method,6.826692104,1971
+1980 Census,Own-children method,6.823500156,1972
+1980 Census,Own-children method,6.798799992,1973
+1958 Census,Reverse survival method,6.779913902,1956
+1980 Census,Own-children method,6.671599865,1971
+1973 Census,Own-children method,6.667900085,1970
+1967 Census,Own-children method,6.64470005,1966
+1973 Census,Own-children method,6.635700226,1961
+1980 Census,Reverse survival method,6.630019665,1973
+1980 Census,Reverse survival method,6.618062019,1973
+1980 Census,Own-children method,6.575099945,1970
+1970 Census,Reverse survival method,6.546290398,1970
+1958 Census,Reverse survival method,6.534888268,1956
+1980 Census,Own-children method,6.514999866,1971
+1973 Census,Reverse survival method,6.478447437,1972
+1980 Census,Own-children method,6.394100189,1975
+1958 Census,Reverse survival method,6.322231293,1957
+1980 Census,Reverse survival method,6.277711868,1974
+1973 Census,Own-children method,6.263199806,1972
+1980 Census,Own-children method,6.255000114,1973
+1986 Census,Reverse survival method,6.167408466,1972
+1980 Census,Own-children method,6.074100018,1976
+1973 Census,Own-children method,6.065199852,1971
+1986 Census,Reverse survival method,6.021756649,1973
+1986 Census,Reverse survival method,6.002245426,1974
+1980 Census,Reverse survival method,5.915822506,1975
+1986 Census,Reverse survival method,5.825046062,1974
+1973 Census,Reverse survival method,5.791339874,1973
+1986 Census,Reverse survival method,5.578119755,1975
+1958 Census,Reverse survival method,5.559348583,1958
+1980 Census,Reverse survival method,5.494596958,1976
+1986 Census,Reverse survival method,5.299804211,1976
+1980 Census,Own-children method,5.289999962,1976
+1980 Census,Own-children method,5.258299828,1977
+1980 Census,Reverse survival method,5.027264118,1977
+1990 Census,Own-children method,5.013500214,1976
+1986 Census,Reverse survival method,4.997973919,1977
+1980 Census,Own-children method,4.924799919,1978
+1980 Census,Own-children method,4.840799809,1978
+1986 Census,Reverse survival method,4.697266579,1978
+1980 Census,Reverse survival method,4.559715271,1978
+1990 Census,Reverse survival method,4.479849339,1976
+1980 Census,Reverse survival method,4.468898296,1978
+1990 Census,Own-children method,4.438899994,1978
+1986 Census,Reverse survival method,4.422851086,1979
+1986 Census,Reverse survival method,4.392226219,1979
+1990 Census,Reverse survival method,4.318066597,1977
+1990 Census,Reverse survival method,4.20111227,1978
+1986 Census,Reverse survival method,4.186902046,1980
+1990 Census,Reverse survival method,4.156447887,1978
+1980 Census,Own-children method,4.143400192,1979
+1990 Census,Own-children method,4.111899853,1977
+1980 Census,Reverse survival method,4.094830036,1979
+1990 Census,Own-children method,4.00549984,1978
+1986 Census,Reverse survival method,3.997235775,1981
+1990 Census,Reverse survival method,3.992591381,1979
+1980 Census,Own-children method,3.928600073,1981
+2005 Census,Own-children method,3.927200079,1991
+2005 Census,Own-children method,3.898999929,1993
+1990 Census,Own-children method,3.893399954,1986
+1986 Census,Reverse survival method,3.847463846,1982
+1990 Census,Reverse survival method,3.833148718,1980
+1986 Census,Reverse survival method,3.737806797,1983
+Register,Computed rate from NSO/WPP,3.720807791,1980
+1990 Census,Own-children method,3.713700056,1980
+2005 Census,Own-children method,3.712800026,1993
+2005 Census,Own-children method,3.709899902,1994
+1990 Census,Reverse survival method,3.68699646,1981
+1990 Census,Own-children method,3.677400112,1984
+1986 Census,Reverse survival method,3.672946453,1984
+1986 Census,Reverse survival method,3.670343399,1984
+1986 Census,Reverse survival method,3.64978838,1985
+1986 Census,Reverse survival method,3.574666262,1986
+2005 Census,Own-children method,3.556400061,1992
+1990 Census,Reverse survival method,3.554483891,1982
+1980 Census,Reverse survival method,3.531581163,1980
+Register,Computed rate from NSO/WPP,3.483524323,1980
+1995 Census,Cohort-completed fertility backdated by the mean age of childbearing,3.469230652,1977
+Register,Computed rate from NSO/WPP,3.461003542,1980
+2005 Census,Own-children method,3.459700108,1995
+Register,Computed rate from NSO/WPP,3.458773375,1980
+Register,Computed rate from NSO/WPP,3.458773375,1980
+Register,Computed rate from NSO/WPP,3.458773375,1980
+1990 Census,Own-children method,3.435899973,1983
+1990 Census,Reverse survival method,3.434466124,1983
+1990 Census,Own-children method,3.434400082,1985
+1990 Census,Reverse survival method,3.428359032,1983
+1990 Census,Own-children method,3.380599976,1982
+1990 Census,Own-children method,3.344300032,1981
+1990 Census,Reverse survival method,3.30885601,1984
+1990 Census,Own-children method,3.30340004,1983
+2005 Census,Own-children method,3.293100119,1996
+1990 Census,Own-children method,3.259799957,1987
+1990 Census,Reverse survival method,3.196694613,1985
+1990 Census,Own-children method,3.175499916,1988
+1995 Census,Own-children method,3.174599886,1984
+1995 Census,Reverse survival method,3.154762745,1981
+1995 Census,Reverse survival method,3.145061731,1983
+1995 Census,Reverse survival method,3.108357668,1982
+1990 Census,Reverse survival method,3.10051918,1986
+1995 Census,Own-children method,3.054500103,1981
+1995 Census,Reverse survival method,3.048309803,1983
+1980 Census,Recent births,3.047399998,1980
+1995 Census,Cohort-completed fertility backdated by the mean age of childbearing,3.046816587,1982
+1990 Census,Own-children method,3.04640007,1989
+1995 Census,Own-children method,3.036299944,1985
+1995 Census,Own-children method,3.026400089,1983
+1990 Census,Reverse survival method,3.019388914,1987
+1990 Census,Own-children method,3.017199993,1988
+1995 Census,Own-children method,3.013299942,1986
+1995 Census,Own-children method,3.007100105,1983
+Register,Computed rate from DYB/WPP,2.98703146,1993
+1995 Census,Reverse survival method,2.968616724,1984
+1990 Census,Reverse survival method,2.945019484,1988
+Register,Computed rate from DYB/WPP,2.944300175,1993
+Register,Computed rate from DYB/WPP,2.944300175,1993
+Register,Computed rate from DYB/WPP,2.944300175,1993
+Register,Computed rate from DYB/WPP,2.942459106,1990
+Register,Computed rate from DYB/WPP,2.942459106,1990
+Register,Computed rate from DYB/WPP,2.942459106,1990
+Register,Computed rate from DYB/WPP,2.942282915,1993
+Register,Computed rate from DYB/WPP,2.939918995,1990
+Register,Computed rate from DYB/WPP,2.929116726,1993
+Register,Computed rate from NSO/WPP,2.924550533,1991
+1990 Census,Reverse survival method,2.919550419,1988
+Register,Computed rate from DYB/WPP,2.918146133,1990
+Register,Direct,2.910000086,1993
+Register,Computed rate from DYB/WPP,2.899919987,1996
+Register,Computed rate from NSO/WPP,2.885629177,1991
+1990 Census,Reverse survival method,2.878960609,1989
+1995 Census,Reverse survival method,2.875329018,1985
+Register,Computed rate from DYB/WPP,2.86094594,1992
+Register,Computed rate from DYB/WPP,2.860135078,1996
+Register,Computed rate from DYB/WPP,2.860135078,1996
+Register,Computed rate from DYB/WPP,2.860135078,1996
+Register,Computed rate from DYB/WPP,2.85893178,1996
+2005 Census,Cohort-completed fertility backdated by the mean age of childbearing,2.856936455,1985
+2000 Census,Cohort-completed fertility backdated by the mean age of childbearing,2.854406118,1982
+1995 Census,Own-children method,2.854300022,1982
+Register,Computed rate from DYB/WPP,2.854111195,1990
+1995 Census,Own-children method,2.854099989,1992
+Register,Computed rate from DYB/WPP,2.84906745,1992
+Register,Computed rate from DYB/WPP,2.848929167,1992
+Register,Computed rate from DYB/WPP,2.848929167,1992
+2000 Census,Own-children method,2.84649992,1986
+Register,Computed rate from DYB/WPP,2.845453262,1992
+Register,Computed rate from DYB/WPP,2.83494854,1996
+2005 Census,Own-children method,2.833800077,1998
+1990 Census,Own-children method,2.833699942,1979
+Register,Direct,2.825000048,1992
+Register,Direct,2.819999933,1996
+Register,Computed rate from DYB/WPP,2.818203449,1992
+1995 Census,Reverse survival method,2.791241646,1995
+2005 Census,Own-children method,2.789799929,1998
+1995 Census,Reverse survival method,2.785588741,1986
+Register,Computed rate from NSO/WPP,2.780875921,1992
+Register,Computed rate from DYB/WPP,2.774775267,1991
+Register,Computed rate from DYB/WPP,2.774775267,1991
+Register,Computed rate from DYB/WPP,2.774775267,1991
+Register,Computed rate from DYB/WPP,2.773564339,1991
+1995 Census,Own-children method,2.7579,1987
+1990 Census,Reverse survival method,2.757385015,1990
+2005 Census,Own-children method,2.754300117,1999
+Register,Computed rate from NSO/WPP,2.75317502,1994
+1995 Census,Own-children method,2.752099991,1991
+Register,Computed rate from DYB/WPP,2.74826169,1991
+Register,Computed rate from DYB/WPP,2.746746302,1995
+Register,Computed rate from NSO/WPP,2.73754549,1993
+Register,Computed rate from NSO/WPP,2.736656904,1992
+2005 Census,Own-children method,2.732300043,2002
+Register,Computed rate from NSO/WPP,2.730779648,1994
+1995 Census,Own-children method,2.729000092,1994
+1995 Census,Reverse survival method,2.728746653,1994
+Register,Direct,2.720000029,1990
+Register,Direct,2.720000029,1991
+Register,Computed rate from DYB/WPP,2.714864969,1994
+Register,Computed rate from DYB/WPP,2.711334467,1991
+Register,Computed rate from NSO/WPP,2.707340479,1993
+1995 Census,Reverse survival method,2.706766367,1987
+1995 Census,Own-children method,2.702600002,1988
+2005 Census,Own-children method,2.698699951,1997
+2005 Census,Reverse survival method,2.69619298,1993
+Register,Direct,2.690000057,1994
+1995 Census,Own-children method,2.687900066,1989
+Register,Direct,2.670000076,1995
+Register,Computed rate from NSO/WPP,2.669332981,1995
+1995 Census,Own-children method,2.666800022,1993
+Register,Computed rate from DYB/WPP,2.666319609,1995
+Register,Computed rate from DYB/WPP,2.664534569,1994
+Register,Computed rate from DYB/WPP,2.664534569,1994
+Register,Computed rate from DYB/WPP,2.66437459,1994
+Register,Computed rate from DYB/WPP,2.664321184,1995
+Register,Computed rate from DYB/WPP,2.664321184,1995
+Register,Computed rate from DYB/WPP,2.664321184,1995
+Register,Computed rate from DYB/WPP,2.661820412,1994
+Register,Computed rate from NSO/WPP,2.661281586,1995
+2000 Census,Own-children method,2.654700041,1987
+Register,Computed rate from DYB/WPP,2.651315689,1994
+2000 Census,Own-children method,2.649800062,1992
+1995 Census,Reverse survival method,2.645464182,1993
+1995 Census,Reverse survival method,2.641032219,1993
+1995 Census,Reverse survival method,2.636330128,1988
+2005 Census,Own-children method,2.631700039,2001
+1995 Census,Reverse survival method,2.623039961,1988
+Register,Computed rate from DYB/WPP,2.623003244,1995
+1995 Census,Own-children method,2.615499973,1990
+1995 Census,Own-children method,2.601399899,1993
+2005 Census,Reverse survival method,2.592928648,1993
+1995 Census,Reverse survival method,2.579025984,1992
+1995 Census,Reverse survival method,2.578944445,1989
+2005 Census,Reverse survival method,2.577539682,1992
+2005 Census,Own-children method,2.573800087,2004
+2005 Census,Cohort-completed fertility backdated by the mean age of childbearing,2.556257963,1989
+2005 Census,Reverse survival method,2.555488825,1994
+Register,Computed rate from NSO/WPP,2.553853035,1996
+Register,Computed rate from NSO/WPP,2.553382874,1996
+1995 Census,Reverse survival method,2.540495872,1990
+1995 Census,Reverse survival method,2.540482998,1991
+2000 Census,Reverse survival method,2.531767607,1986
+2000 Census,Own-children method,2.523699999,1988
+Register,Computed rate from DYB/WPP,2.513831377,1997
+2005 Census,Reverse survival method,2.512740135,1991
+2000 Census,Reverse survival method,2.5122118,1987
+2005 Census,Own-children method,2.507600069,2003
+2000 Census,Own-children method,2.507100105,1994
+2000 Census,Reverse survival method,2.495444298,1988
+2000 Census,Reverse survival method,2.486968279,1988
+2000 Census,Own-children method,2.476000071,1990
+2000 Census,Reverse survival method,2.472875595,1989
+2005 Census,Reverse survival method,2.471899271,1995
+Register,Direct,2.470000029,1997
+Register,Computed rate from DYB/WPP,2.469851732,2019
+2000 Census,Own-children method,2.464600086,1993
+Register,Computed rate from DYB/WPP,2.460426569,1997
+Register,Computed rate from DYB/WPP,2.460231543,1997
+Register,Computed rate from DYB/WPP,2.460231543,1997
+Register,Computed rate from DYB/WPP,2.460231543,1997
+2000 Census,Reverse survival method,2.442572117,1990
+2000 Census,Own-children method,2.435800076,1993
+1995 Census,Own-children method,2.419500113,1988
+2000 Census,Reverse survival method,2.419267654,1991
+1995 Census,Own-children method,2.413899899,1996
+Register,Computed rate from DYB/WPP,2.413635731,1997
+2000 Census,Own-children method,2.41140008,1995
+2000 Census,Reverse survival method,2.396274328,1992
+2000 Census,Own-children method,2.395900011,1988
+Register,Computed rate from NSO/WPP,2.390732288,1997
+2005 Census,Own-children method,2.382100105,2005
+Register,Computed rate from NSO/WPP,2.380284786,1997
+2005 Census,Reverse survival method,2.374225378,1996
+2000 Census,Reverse survival method,2.361223459,1993
+2000 Census,Reverse survival method,2.351263523,1993
+Register,Computed rate from DYB/WPP,2.331978321,2013
+Register,Computed rate from DYB/WPP,2.31698823,2016
+2000 Census,Own-children method,2.308000088,1991
+2005 Census,Own-children method,2.307499886,2000
+Register,Computed rate from DYB/WPP,2.290603399,1998
+Register,Direct,2.285000086,1998
+2000 Census,Reverse survival method,2.282878637,1994
+Register,Computed rate from DYB/WPP,2.27604723,1998
+Register,Computed rate from DYB/WPP,2.275895119,1998
+Register,Computed rate from DYB/WPP,2.275875807,1998
+Register,Computed rate from DYB/WPP,2.275875807,1998
+2005 Census,Reverse survival method,2.275544882,1997
+2000 Census,Own-children method,2.257600069,1989
+2000 Census,Cohort-completed fertility backdated by the mean age of childbearing,2.247407436,1985
+Register,Computed rate from DYB/WPP,2.233794689,1998
+Register,Computed rate from DYB/WPP,2.230891228,2004
+2000 Census,Own-children method,2.221400023,1996
+2005 Census,Own-children method,2.217900038,2003
+Register,Computed rate from NSO/WPP,2.197412491,2017
+Register,Computed rate from NSO/WPP,2.186246634,1998
+2000 Census,Reverse survival method,2.185935736,1995
+2015 Census,Reverse survival method,2.180792332,2014
+Register,Computed rate from DYB/WPP,2.178179741,2015
+Register,Computed rate from NSO/WPP,2.173726559,1998
+2015 Census,Reverse survival method,2.170883656,2015
+2005 Census,Reverse survival method,2.17067647,1998
+2015 Census,Reverse survival method,2.170187235,2013
+Register,Computed rate from DYB/WPP,2.169362307,2004
+2015 Census,Reverse survival method,2.163549185,2013
+Register,Computed rate from NSO/WPP,2.160540104,2015
+Register,Computed rate from DYB/WPP,2.159217596,2004
+2015 Census,Reverse survival method,2.159004211,2012
+Register,Computed rate from DYB/WPP,2.158793211,2004
+Register,Computed rate from DYB/WPP,2.158793211,2004
+Register,Computed rate from DYB/WPP,2.158728123,2004
+2015 Census,Reverse survival method,2.146591902,2011
+Register,Computed rate from NSO/WPP,2.135662317,2014
+2015 Census,Reverse survival method,2.129045248,2010
+2005 Census,Reverse survival method,2.122307301,1998
+2015 Census,Reverse survival method,2.105667353,2009
+Register,Computed rate from NSO/WPP,2.103057623,2016
+2015 Census,Reverse survival method,2.087667227,2008
+Register,Computed rate from DYB/WPP,2.086881161,2018
+2015 Census,Reverse survival method,2.08096385,2008
+2000 Census,Reverse survival method,2.077119112,1996
+2005 Census,Reverse survival method,2.073359013,1999
+2005 Census,Reverse survival method,2.067159653,2005
+Register,Computed rate from NSO/WPP,2.062076092,2017
+Register,Computed rate from NSO/WPP,2.058643103,2014
+2015 Census,Reverse survival method,2.055671215,2007
+Register,Direct,2.055000067,2004
+2012 Mini-Census,Own-children method,2.04489994,2009
+Register,Computed rate from DYB/WPP,2.044439793,2006
+Register,Computed rate from NSO/WPP,2.038679838,2006
+Register,Computed rate from NSO/WPP,2.035353899,2013
+Register,Computed rate from DYB/WPP,2.033447027,2006
+Register,Computed rate from NSO/WPP,2.032952547,2015
+2015 Census,Reverse survival method,2.029469728,2006
+Register,Computed rate from DYB/WPP,2.027411461,2002
+Register,Computed rate from NSO/WPP,2.022735596,2006
+2012 Mini-Census,Own-children method,2.020200014,2003
+Register,Direct,2.019999981,2006
+Register,Computed rate from NSO/WPP,2.019845724,2018
+2012 Mini-Census,Own-children method,2.01789999,2008
+Register,Computed rate from DYB/WPP,2.017802954,2017
+2015 Census,Reverse survival method,2.007160187,2005
+2005 Census,Reverse survival method,2.004081249,2004
+Register,Computed rate from NSO/WPP,2.003367662,1999
+Register,Computed rate from DYB/WPP,2.001791477,2002
+Register,Computed rate from DYB/WPP,2.001791477,2002
+Register,Computed rate from DYB/WPP,2.001791477,2002
+Register,Computed rate from DYB/WPP,2.00106883,2002
+2012 Mini-Census,Own-children method,1.997300029,2007
+Register,Computed rate from NSO/WPP,1.996472239,2013
+2005 Census,Reverse survival method,1.995602727,2000
+2012 Mini-Census,Reverse survival method,1.995297074,1998
+2012 Mini-Census,Own-children method,1.994600058,2005
+2020 Census,Recent births,1.988999963,2020
+2015 Census,Reverse survival method,1.98870647,2004
+Register,Computed rate from NSO/WPP,1.988401771,2005
+Register,Computed rate from NSO/WPP,1.987554431,2016
+Register,Computed rate from NSO/WPP,1.98701334,2020
+Register,Computed rate from NSO/WPP,1.98410666,2005
+2015 Census,Reverse survival method,1.981484294,2003
+Register,Computed rate from NSO/WPP,1.980090499,1999
+2012 Mini-Census,Reverse survival method,1.978714347,2008
+2005 Census,Reverse survival method,1.974702716,2003
+2012 Mini-Census,Reverse survival method,1.973476171,2009
+Register,Computed rate from DYB/WPP,1.971258163,2014
+2015 Census,Reverse survival method,1.969663382,2003
+2012 Mini-Census,Own-children method,1.968000054,2001
+2012 Mini-Census,Reverse survival method,1.967574954,2007
+Register,Computed rate from NSO/WPP,1.965462565,2019
+Register,Computed rate from NSO/WPP,1.962562442,2004
+2012 Mini-Census,Own-children method,1.956699967,2000
+2000 Census,Own-children method,1.955500007,1997
+2000 Census,Reverse survival method,1.95364213,1997
+2012 Mini-Census,Reverse survival method,1.952807307,2010
+2005 Census,Reverse survival method,1.950417876,2003
+2015 Census,Reverse survival method,1.949023247,2002
+2005 Census,Reverse survival method,1.946815729,2001
+Register,Direct,1.945000052,2002
+2012 Mini-Census,Reverse survival method,1.942837358,2006
+2012 Mini-Census,Reverse survival method,1.939624548,2005
+Register,Computed rate from NSO/WPP,1.938515782,2004
+Register,Computed rate from DYB/WPP,1.933832288,2002
+2005 Census,Reverse survival method,1.932175636,2002
+2012 Mini-Census,Reverse survival method,1.931830406,2010
+Register,Computed rate from DYB/WPP,1.928641081,1999
+2015 Census,Reverse survival method,1.928060889,2001
+2012 Mini-Census,Reverse survival method,1.926442623,1999
+Register,Computed rate from NSO/WPP,1.923404336,2003
+Register,Computed rate from DYB/WPP,1.922055364,2006
+Register,Computed rate from DYB/WPP,1.921086907,2006
+Register,Computed rate from DYB/WPP,1.920934796,2006
+Register,Computed rate from DYB/WPP,1.920934796,2006
+2012 Mini-Census,Reverse survival method,1.916457891,2011
+Register,Computed rate from NSO/WPP,1.909386158,2000
+2012 Mini-Census,Reverse survival method,1.908117771,2005
+2012 Mini-Census,Own-children method,1.907400012,2005
+Register,Direct,1.904999971,2005
+2012 Mini-Census,Own-children method,1.904500008,1999
+Register,Computed rate from DYB/WPP,1.902572989,1999
+Register,Computed rate from DYB/WPP,1.902441859,1999
+Register,Computed rate from DYB/WPP,1.902441859,1999
+Register,Computed rate from DYB/WPP,1.900891185,1999
+Register,Direct,1.899999976,1999
+Register,Computed rate from DYB/WPP,1.897850156,2005
+2012 Mini-Census,Own-children method,1.892500043,2010
+Register,Computed rate from DYB/WPP,1.888614178,2001
+Register,Computed rate from NSO/WPP,1.882992506,2003
+Register,Computed rate from NSO/WPP,1.878588676,2000
+Register,Computed rate from DYB/WPP,1.872206807,2005
+2012 Mini-Census,Reverse survival method,1.871305227,2000
+Register,Computed rate from NSO/WPP,1.870914102,2002
+2012 Mini-Census,Reverse survival method,1.870038152,2004
+Register,Computed rate from DYB/WPP,1.859083891,1999
+2012 Mini-Census,Reverse survival method,1.846096396,2012
+Register,Computed rate from DYB/WPP,1.839933634,2001
+Register,Computed rate from DYB/WPP,1.838944912,2001
+Register,Computed rate from DYB/WPP,1.838944912,2001
+Register,Computed rate from DYB/WPP,1.838944912,2001
+2012 Mini-Census,Reverse survival method,1.83746314,2003
+2012 Mini-Census,Reverse survival method,1.835769296,2001
+Register,Direct,1.835000038,2001
+Register,Computed rate from NSO/WPP,1.827000976,2002
+2012 Mini-Census,Reverse survival method,1.823602676,2002
+1990 Census,Own-children method,1.82130003,1990
+2012 Mini-Census,Own-children method,1.817499995,2010
+2012 Mini-Census,Reverse survival method,1.816760302,2000
+Register,Computed rate from NSO/WPP,1.809886217,2001
+2012 Mini-Census,Own-children method,1.808099985,2013
+Register,Computed rate from DYB/WPP,1.807922363,2005
+Register,Computed rate from DYB/WPP,1.807922363,2005
+Register,Computed rate from DYB/WPP,1.807922363,2005
+Register,Computed rate from DYB/WPP,1.807287097,2005
+2000 Census,Reverse survival method,1.796962738,1998
+2012 Mini-Census,Own-children method,1.790599942,2011
+Register,Computed rate from DYB/WPP,1.787265778,2013
+2012 Mini-Census,Own-children method,1.784999967,2000
+Register,Computed rate from DYB/WPP,1.781133175,2001
+2012 Mini-Census,Own-children method,1.774700046,2004
+Register,Computed rate from NSO/WPP,1.772520781,2001
+Register,Computed rate from DYB/WPP,1.771602035,2003
+2000 Census,Own-children method,1.76970005,1998
+2000 Census,Own-children method,1.765499949,1998
+2000 Census,Reverse survival method,1.754383326,1998
+2012 Mini-Census,Own-children method,1.74969995,2006
+2000 Census,Own-children method,1.736199975,1999
+Register,Computed rate from DYB/WPP,1.730508566,2003
+Register,Computed rate from DYB/WPP,1.730508566,2003
+Register,Computed rate from DYB/WPP,1.730508566,2003
+Register,Computed rate from DYB/WPP,1.729806662,2003
+Register,Computed rate from DYB/WPP,1.70376873,2003
+Register,Computed rate from DYB/WPP,1.659575939,2000
+Register,Direct,1.639999986,2003
+Register,Direct,1.63499999,2000
+Register,Computed rate from DYB/WPP,1.62679553,2000
+Register,Computed rate from DYB/WPP,1.62672174,2000
+Register,Computed rate from DYB/WPP,1.62663579,2000
+Register,Computed rate from DYB/WPP,1.62663579,2000
+2000 Census,Reverse survival method,1.606662512,1999
+Register,Computed rate from DYB/WPP,1.596360683,2015
+Register,Computed rate from DYB/WPP,1.589399219,2000
+2012 Mini-Census,Own-children method,1.577299953,2002
+Register,Computed rate from DYB/WPP,1.548207998,2014
+Register,Computed rate from DYB/WPP,1.510866404,2016
+2012 Mini-Census,Own-children method,1.503600001,1998
+Register,Computed rate from DYB/WPP,1.502272487,2019
+2000 Census,Reverse survival method,1.360213518,2000
+Register,Computed rate from DYB/WPP,1.355913877,2018
+Register,Computed rate from DYB/WPP,1.321681261,2017
+2000 Census,Own-children method,1.164600015,2000
