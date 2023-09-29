@@ -3,7 +3,7 @@ title: <span style="color:#FFD100">**Scatter Plot of TFR Estimates**<span>
 output: 
   rmdformats::material:
     css: custom.css
-bibliography: references.bib
+bibliography: scatter_references.bib
 ---
 
 # Introduction
@@ -18,10 +18,11 @@ Below is the code used to build the scatter plot comparison.
 
 ## Loading the Packages
 
-First we load the tidyverse library of R packages [@tidyverse], which includes the ggplot2() package [@ggplot2] and the dplyr() package [@dplyr]
+First we load the tidyverse() library of R packages [@tidyverse], which includes the ggplot2() package [@ggplot2], the dplyr() package [@dplyr], and the plotly() package [@plotly]
 
 ```{r load_packages, warning=FALSE, echo=FALSE}
 library(tidyverse)
+library(plotly)
 ```
 
 ## Loading the data
@@ -39,7 +40,7 @@ Finally, we use ggplot2() to compute a static data visualisation
 
 ```{r plot_static, fig.width=10,fig.height=15}
 # create the scatter plot
-ggplot(data, aes(x = estimated_year,
+p = ggplot(data, aes(x = estimated_year,
                  y = estimated_tfr,
                  color = interaction(estimate_method,
                                      data_source))) +
@@ -52,9 +53,25 @@ ggplot(data, aes(x = estimated_year,
   theme_minimal() +
   theme(legend.position = "bottom",
         legend.box="vertical", legend.margin=margin()) +
-    guides(color=guide_legend(nrow=15, byrow=TRUE))
+  guides(color=guide_legend(nrow=15, byrow=TRUE))
+
+p
+```
+
+## Make interactive
+
+Using the ggplotly package , we can make the plot
+
+```{r interactive_plot}
+# gonvert the ggplot to plotly
+interactive = ggplotly(p) %>% layout(showlegend = FALSE)
+
+interactive
+
 ```
 
 # Homepage
+
 ## [Return to Homepage](index.html)
+
 # Bibliography
