@@ -1,7 +1,7 @@
 ---
 title: <span style="color:#FFD100">**Palau Demographics**<span>
 output: 
-  rmdformats::material:
+  rmdformats::readthedown:
     css: custom.css
 ---
 
@@ -11,18 +11,20 @@ This site is a compendium of the data and code used for analysis of the demograp
 
 # About Palau
 
-Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+Palau is a group of islands in the Pacific Ocean, known for its clear waters and diverse marine life. The islands, including the well-known Rock Islands and Jellyfish Lake, attract visitors and researchers alike, with a focus on conservation and mindful tourism to protect its ecosystems. The Palauans maintain a strong cultural heritage and traditions, with a society that values women in leadership through a more matrilineal system.
+
+Palau has a history marked by various international influences, having experienced Spanish, German, and Japanese rule in different periods. After World War II, Palau was part of the Trust Territory of the Pacific Islands under the United States. In 1994, Palau gained independence and established a compact of free association with the United States, receiving military defense and financial assistance, while also maintaining a degree of autonomy. The nation, as a relatively young republic, blends its historical experiences with its current governance, creating a political narrative that is both rich and complex.
 
 ![](https://i.pinimg.com/736x/06/78/c8/0678c84a3b633ffe494755e33740cb9f--hard-coral-beautiful-rocks.jpg)
 
 # RMarkdown Workbooks
 
-## Animated Population Tree of Palau
+## [Comparing TFR Estimates](scatter_plot.html)
 
-## [Scatter Plot of TFR Estimates](scatter_plot.html)
+## Data Source Table
 
-# Excel Workbooks
+## Mortality
 
-# Raw Demographic Data
+## Fertility and Reproduction
 
-## Estimates of TFR
+## Life tables

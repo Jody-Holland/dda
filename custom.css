@@ -1,4 +1,38 @@
-/* Change the banner background color to red */
-.header-panel {
-    background-color: #0085CA;
+#sidebar {
+    color: #113458;
+    background: #D9AB16;
+}
+
+#sidebar h2 {
+    color: #FFFFFF;
+    background-color: #4096B8;
+}
+
+#sidebar a {
+    color: #3F4548;
+}
+
+#sidebar a:hover {
+    background-color: #3F4548;
+    color: #FFFFFF;
+}
+
+/* Change color of all headings */
+h1, h2, h3, h4, h5, h6 {
+    color: #2196F3;  /* Blue */
+}
+
+/* Change color of hyperlinks in headings */
+h1 a, h2 a, h3 a, h4 a, h5 a, h6 a {
+    color: #2196F3;  /* Blue */
+}
+
+/* Change color of hyperlinks in text */
+a {
+    color: #2196F3;  /* Blue */
+}
+
+/* Change color of hyperlinks on hover */
+a:hover {
+    color: #1864ab;  /* Darker Blue */
 }
