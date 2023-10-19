@@ -1,9 +1,9 @@
 ---
-title: <span style="color:#FFD100">**Scatter Plot of TFR Estimates**<span>
+title: <span style="color:#FFD100">**Plotting TFR Estimates**<span>
 output: 
   rmdformats::readthedown:
     css: custom.css
-bibliography: scatter_references.bib
+bibliography: tfr_references.bib
 ---
 
 # Introduction
@@ -18,12 +18,13 @@ Below is the code used to build the scatter plot comparison.
 
 ## Loading the Packages
 
-First we load the tidyverse() library of R packages [@tidyverse], which includes the ggplot2() package [@ggplot2], the dplyr() package [@dplyr], and the plotly() package [@plotly]. We also use the ggthemes package for cool styling later [@ggthemes].
+First we load the tidyverse() library of R packages [@tidyverse], which includes the ggplot2() package [@ggplot2], the dplyr() package [@dplyr], and the plotly() package [@plotly]. We also use the ggthemes() package for cool styling later [@ggthemes] and the gt() package for outputting html tables [@gt].
 
 ```{r load_packages, message=FALSE, warning=FALSE}
 library(tidyverse)
 library(ggthemes)
 library(plotly)
+library(gt)
 ```
 
 ## Loading the data
@@ -35,8 +36,23 @@ Next we load our two .csv data into R as two tibble objects. One, "e_tfr" is a c
 e_tfr = read_csv("data/tfr_estimates.csv") %>%
   as_tibble() 
 
-# load the approx tfr 
+# load the wpp tfr 
 wpp_tfr = e_tfr %>% filter(data_source == "WPP")
+```
+
+## Source Table
+
+```{r table, message=FALSE}
+# make a table of unique combos of Source + method
+unique_combinations = unique(e_tfr[c("estimate_method", "data_source")])
+unique_combinations = unique_combinations[order(unique_combinations$data_source,                                              unique_combinations$estimate_method), ] %>%
+    rename(`Estimate Method` = estimate_method, `Data Source` = data_source)
+
+# export as a gt table and set column background colors
+unique_combinations %>%
+  gt() %>%
+  tab_style(style = cell_fill(color = "#1F78B4"),
+            locations = cells_column_labels(columns = 1:2))
 ```
 
 ## Static Plots
@@ -83,7 +99,8 @@ wpp
 
 Using the ggplotly function from the plotly package, we can make the plot interactive so it is possible to select which data you want to see and zoom + export a custom png. This is very challenging however and could also probably be achieved in Shiny with more ease (though I would have to host a backend which can be \$\$\$)
 
-```{r interactive_plot, fig.width=12,fig.height=13}
+```{r interactive_plot}
+# set plotly boundaries
 est_plotly = ggplotly(est, width = 800, height = 2000)
 
 
@@ -91,9 +108,7 @@ est_plotly = ggplotly(est, width = 800, height = 2000)
 buttons = list()
 
 # Access the levels of the color scale for the correct order
-unique_combinations = unique(e_tfr[c("estimate_method", "data_source")])
-unique_combinations = unique_combinations[order(unique_combinations$data_source,
-                                                unique_combinations$estimate_method), ]
+
 unique_combinations = apply(unique_combinations, 1,
                             function(row) paste(row, collapse = "-"))
 
@@ -163,7 +178,7 @@ calc_tfr = calc_tfr %>%
 
 We can visualise this data per year of estimate as a simple point and line of best fit graph
 
-```{r animated_histogram, fig.width = 12, fig.height = 12}
+```{r line_graph, fig.width = 12, fig.height = 12, warning = FALSE}
 difference_model = lm(difference ~ estimated_year, data = calc_tfr)
 r_squared = summary(difference_model)$r.squared
 

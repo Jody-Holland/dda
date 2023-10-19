@@ -7,7 +7,7 @@ output:
 
 # Introduction
 
-This site is a compendium of the data and code used for analysis of the demographics of Palau as part of the "Demographic Data and Analysis" (GEMDDA) course within the Faculty of Spatial Sciences at the University of Groningen. On this site you will find links to RMarkdown Workbooks outlining the code used to compute various demographic calculations and visualustions, links to the raw data in .csv form, and links to downloadable Excel worksheets outlining how to compute these demographic calculations and visualustions in a conventional spreadsheet software.
+This site is a compendium of the data and code used for analysis of the demographics of Palau as part of the "Demographic Data and Analysis" (GEMDDA) course within the Faculty of Spatial Sciences at the University of Groningen. On this site you will find links to RMarkdown Workbooks outlining the code used to compute various demographic calculations and visualisations, links to the raw data in .csv form, and links to downloadable Excel worksheets outlining how to compute these demographic calculations and visualisations in a conventional spreadsheet software.
 
 # About Palau
 
@@ -19,9 +19,9 @@ Palau has a history marked by various international influences, having experienc
 
 # RMarkdown Workbooks
 
-## [Comparing TFR Estimates](scatter_plot.html)
+## [Comparing TFR Estimates](tfr_plots.html)
 
-## Data Source Table
+## [Population Structure and Growth](population_structure.html)
 
 ## Mortality
 
