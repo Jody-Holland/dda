@@ -1,0 +1,602 @@
+---
+title: <span style="color:#FFD100">**Exploring Life Tables**<span>
+output: 
+  rmdformats::readthedown:
+    css: custom.css
+bibliography: pop_references.bib
+---
+
+# Introduction
+Using IMHE and Census Data we complied a life table together in R for Palau in 2015. This was a very labour intensive process. We took our $_na_x$ values from Tawian in 1970, which we found to have a similar life expectancy as Palau. We got this data from the Human Mortality Database (HMD). We also decomposed the gender difference in life expectancy, saw the influence of heart failure on life expectancy between genders, and used the Sullivan method to estimate the years of healthy life left, with vision loss being our impairment.
+
+# Loading the Packages
+
+```{r load_packages, message=FALSE, warning=FALSE}
+library(tidyverse)
+library(gt)
+```
+
+```{r load_data, message=FALSE}
+df_main = read_csv("data/life_tables.csv")
+df_female = df_main %>% filter(sex == "female")
+df_male = df_main %>% filter(sex == "male")
+```
+
+# Initial data
+Set up start of life table with the x, the n, the $_nN_x$ and the $_nD_x$
+
+```{r set_up_columns}
+life_table_female = tibble(
+  x = df_female$x,
+  # calculate interval and set open ended as NA
+  n = c(diff(df_male$x), NA),
+  nNx = df_female$pop,
+  nDx = df_female$deaths
+)
+
+life_table_male = tibble(
+  x = df_male$x,
+  # calculate interval and set open ended as NA
+  n = c(diff(df_male$x), NA),
+  nNx = df_male$pop,
+  nDx = df_male$deaths
+)
+
+```
+
+## Female Table 2015
+
+```{r female_table_initial}
+life_table_female %>%
+  gt() %>%
+  tab_style(style = cell_fill(color = "#1F78B4"),
+            locations = cells_column_labels(columns = 1:4))
+```
+
+## Male Table 2015
+
+```{r male_table_initial}
+life_table_male %>%
+  gt() %>%
+  tab_style(style = cell_fill(color = "#1F78B4"),
+            locations = cells_column_labels(columns = 1:4))
+```
+
+# Calculating $_nm_x$
+Simple division to calculate $_nm_x$
+
+```{r nmx}
+# calculate mortality/nmx
+life_table_female$nmx = life_table_female$nDx /
+  life_table_female$nNx
+
+life_table_male$nmx = life_table_male$nDx /
+  life_table_male$nNx
+```
+
+## Female Table 2015
+
+```{r female_table_nmx}
+life_table_female %>%
+  gt() %>%
+  tab_style(style = cell_fill(color = "#1F78B4"),
+            locations = cells_column_labels(columns = 1:5))
+```
+
+## Male Table 2015
+
+```{r male_table_nmx}
+life_table_male %>%
+  gt() %>%
+  tab_style(style = cell_fill(color = "#1F78B4"),
+            locations = cells_column_labels(columns = 1:5))
+```
+
+# Calculating $_na_x$
+Use Taiwan 1970 Reference for the middle categories, Preston et.al for the 80+ category, and Coale and Demeny for 0 to 4 categories
+
+```{r nax}
+# calculate nax for 0 to 1
+nax_natal_male = life_table_male$nmx[1] * 2.684 + 0.045
+nax_natal_female = life_table_female$nmx[1] * 2.684 + 0.045
+
+# calculate nax for 0 to 4
+nax_toddler_male = -life_table_male$nmx[2] * 2.816 + 1.651
+nax_toddler_female = -life_table_female$nmx[2] * 2.816 + 1.651
+
+# calculate nax for 80+
+nax_oa_male = 80 + 1/life_table_male$nmx[18] - 80/1-exp(-80*life_table_male$nmx[18])
+
+nax_oa_female = 80 + 1/life_table_female$nmx[18] - 80/1-exp(-80*life_table_female$nmx[18])
+
+# load taiwan 1970 nax
+taiwan = read_csv("data/taiwan_nax.csv")
+
+nax_male = c(nax_natal_male,
+             nax_toddler_male,
+             taiwan$male,
+             nax_oa_male)
+
+nax_female = c(nax_natal_female,
+             nax_toddler_female,
+             taiwan$female,
+             nax_oa_female)
+
+# join onto dataframe
+life_table_male$nax = nax_male
+life_table_female$nax = nax_female
+```
+
+## Female Table 2015
+
+```{r female_table_nax}
+life_table_female %>%
+  gt() %>%
+  tab_style(style = cell_fill(color = "#1F78B4"),
+            locations = cells_column_labels(columns = 1:6))
+```
+
+## Male Table 2015
+
+```{r male_table_nax}
+life_table_male %>%
+  gt() %>%
+  tab_style(style = cell_fill(color = "#1F78B4"),
+            locations = cells_column_labels(columns = 1:6))
+```
+
+# Calculating $_nq_a$ and $_np_x$
+
+Calculate the chance of dying between intervals and the reverse (elsewise known as the chance of living!)
+```{r nqa_npx}
+# do female nqx
+life_table_female$nqx = (life_table_female$n * life_table_female$nmx) / 
+  (1 + (life_table_female$n - life_table_female$nax) * life_table_female$nmx)
+
+# for 80 plus cat
+life_table_female$nqx[18] = 1
+
+# do male nqx
+life_table_male$nqx = (life_table_male$n * life_table_male$nmx) / 
+  (1 + (life_table_male$n - life_table_male$nax) * life_table_male$nmx)
+
+# for 80 plus cat
+life_table_male$nqx[18] = 1
+
+# make numeric
+life_table_female$nqx = life_table_female$nqx %>% as.numeric()
+life_table_male$nqx = life_table_male$nqx %>% as.numeric()
+
+# npx
+life_table_female$npx = 1 - life_table_female$nqx
+life_table_male$npx = 1 - life_table_male$nqx
+```
+
+## Female Table 2015
+
+```{r female_table_}
+life_table_female %>%
+  gt() %>%
+  tab_style(style = cell_fill(color = "#1F78B4"),
+            locations = cells_column_labels(columns = 1:8))
+```
+
+## Male Table 2015
+
+```{r male_table_}
+life_table_male %>%
+  gt() %>%
+  tab_style(style = cell_fill(color = "#1F78B4"),
+            locations = cells_column_labels(columns = 1:8))
+```
+
+# Calculating $l_x$ and $_nd_x$
+Extrapolate upto a population of 100000 using a fun for loop, calculate deaths in this hypothetical population as such (though without the fun loop sadly)
+
+```{r lx_ndx_nLx}
+# do female
+# initiate empty list with only 100000
+lx_female_list = c(100000)
+
+# use a for loop to 
+for (i in seq(life_table_female$npx)) {
+  lx = lx_female_list[i] * life_table_female$npx[i]
+  lx_female_list = append(lx_female_list, lx)
+}
+
+# knock off zero last value
+lx_female_list = head(lx_female_list, -1)
+
+# do male
+# initiate empty list with only 100000
+lx_male_list = c(100000)
+
+# use a for loop to 
+for (i in seq(life_table_male$npx)) {
+  lx = lx_male_list[i] * life_table_male$npx[i]
+  lx_male_list = append(lx_male_list, lx)
+}
+
+# knock off zero last value
+lx_male_list = head(lx_male_list, -1)
+
+# bind together
+life_table_female$lx = lx_female_list %>% as.numeric()
+life_table_male$lx = lx_male_list %>% as.numeric()
+
+# ndx, using the lead() function
+life_table_female$ndx = life_table_female$lx - lead(life_table_female$lx,
+                                                    default = 0)
+life_table_male$ndx = life_table_male$lx - lead(life_table_male$lx,
+                                                    default = 0)
+```
+
+## Female Table 2015
+
+```{r female_table_lx}
+life_table_female %>%
+  gt() %>%
+  tab_style(style = cell_fill(color = "#1F78B4"),
+            locations = cells_column_labels(columns = 1:10))
+```
+
+## Male Table 2015
+
+```{r male_table_lx}
+life_table_male %>%
+  gt() %>%
+  tab_style(style = cell_fill(color = "#1F78B4"),
+            locations = cells_column_labels(columns = 1:10))
+```
+
+# Calculating $_nL_x$
+The hardest bit, a very complex for loop to calculate the Person Years in between intervals. Took me so so long to figure out.
+
+```{r nLx}
+# nLx
+# do female
+# initiate blank column
+life_table_female$nLx = NA
+
+# make a for loop, ignore warning as we will mannually fill in end value
+for(i in seq(life_table_female$nLx)){
+  if(i == 18){
+    life_table_female$nLx[i] = life_table_female$lx[i] / life_table_female$nmx[i]
+  } else {
+  life_table_female$nLx[i] = (life_table_female$n[i] * life_table_female$lx[i + 1]) +
+  (life_table_female$nax[i] * life_table_female$ndx[i])
+}}
+
+# nLx
+# do male
+# initiate blank column
+life_table_male$nLx = NA
+
+# make a for loop, ignore warning as we will mannually fill in end value
+for(i in seq(life_table_male$nLx)){
+  if(i == 18){
+    life_table_male$nLx[i] = life_table_male$lx[i] / life_table_male$nmx[i]
+  } else {
+  life_table_male$nLx[i] = life_table_male$n[i] * life_table_male$lx[i + 1] +
+  life_table_male$nax[i] * life_table_male$ndx[i]
+}}
+```
+
+## Female Table 2015
+
+```{r female_table_nLx}
+life_table_female %>%
+  gt() %>%
+  tab_style(style = cell_fill(color = "#1F78B4"),
+            locations = cells_column_labels(columns = 1:11))
+```
+
+## Male Table 2015
+
+```{r male_table_nLx}
+life_table_male %>%
+  gt() %>%
+  tab_style(style = cell_fill(color = "#1F78B4"),
+            locations = cells_column_labels(columns = 1:11))
+```
+
+# Calculating $T_x$
+Use reverse cumulative function on the reverse of Person-Years to get that adding backwards from 80 effect
+
+```{r Tx}
+# use reverse of the cumsum() function to calculate Tx
+# doing this on the reverse of nLx
+life_table_female$Tx = rev(cumsum(rev(life_table_female$nLx)))
+life_table_male$Tx = rev(cumsum(rev(life_table_male$nLx)))
+```
+
+## Female Table 2015
+
+```{r female_table_Tx}
+life_table_female %>%
+  gt() %>%
+  tab_style(style = cell_fill(color = "#1F78B4"),
+            locations = cells_column_labels(columns = 1:12))
+```
+
+## Male Table 2015
+
+```{r male_table_Tx}
+life_table_male %>%
+  gt() %>%
+  tab_style(style = cell_fill(color = "#1F78B4"),
+            locations = cells_column_labels(columns = 1:12))
+```
+
+# Reaching 65
+Calculate the probability of a 30 year old reaching 65 through multipling the probabilities of survival between 30 and 65
+
+```{r reaching_sixty_five}
+# use prod() function to multiply together npx values
+prob_sixty_five_female = prod(life_table_female$npx[8:14])
+prob_sixty_five_male = prod(life_table_male$npx[8:14])
+
+# output resukts
+paste0("Probability of Female Aged 30 reaching 65: ", 
+       round(prob_sixty_five_female * 100, 2),"%")
+paste0("Probability of Male Aged 30 reaching 65: ", 
+       round(prob_sixty_five_male * 100, 2),"%")
+```
+
+# E Dagger/Life Expectancy
+Calculate E dagger... exciting!!!
+
+```{r life_exp}
+# calculate e
+life_table_female$ex = life_table_female$Tx / life_table_female$lx
+life_table_male$ex = life_table_male$Tx / life_table_male$lx
+```
+
+## Female Table 2015
+
+```{r female_table_e}
+life_table_female %>%
+  gt() %>%
+  tab_style(style = cell_fill(color = "#1F78B4"),
+            locations = cells_column_labels(columns = 1:13))
+```
+
+## Male Table 2015
+
+```{r male_table_e}
+life_table_male %>%
+  gt() %>%
+  tab_style(style = cell_fill(color = "#1F78B4"),
+            locations = cells_column_labels(columns = 1:13))
+```
+
+Determine the Differences between Women and Men
+
+```{r differences}
+life_exp_female = life_table_female$ex[1]
+life_exp_male = life_table_male$ex[1]
+
+paste0("The Female Life Expectancy was found to be: ",
+       round(life_exp_female, 2))
+paste0("The Male Life Expectancy was found to be: ",
+       round(life_exp_male, 2))
+paste0("The Difference in Life Expectancy was found to be: ",
+       round(life_exp_female - life_exp_male, 2))
+```
+
+# Decomposing Gender Gap
+Set up decomposition table with data from the life table
+```{r decomposing_set_up}
+# set up dataframe
+decomp = tibble(
+ lx_f = life_table_female$lx,
+ nLx_f = life_table_female$nLx,
+ Tx_f = life_table_female$Tx,
+ lx_m = life_table_male$lx,
+ nLx_m = life_table_male$nLx,
+ Tx_m = life_table_male$Tx
+)
+
+# show table
+decomp %>%
+  gt() %>%
+  tab_style(style = cell_fill(color = "#1F78B4"),
+            locations = cells_column_labels(columns = 1:6))
+```
+## Calculating differnce
+Try to get the fancy up arrow symbol in the dataframe. Use a very very tricky for loop to decompose between genders. Check at end if it works!
+
+```{r decomp_calculate}
+# create blank column
+decomp$`n△x` = NA
+
+# use female a for loop to to the calc
+for(i in seq(decomp$lx_m)){
+  # open ended age group
+  if(i == 18){
+    decomp$`n△x`[i] = (decomp$lx_m[i] / 100000) *
+      ((decomp$Tx_f[i] / decomp$lx_f[i]) - 
+         (decomp$Tx_m[i] / decomp$lx_m[i]))
+  # other age groups
+  } else {
+    decomp$`n△x`[i] = ((decomp$lx_m[i] / 100000) *
+      ((decomp$nLx_f[i] / decomp$lx_f[i]) - 
+         (decomp$nLx_m[i] / decomp$lx_m[i]))) +
+      ((decomp$Tx_f[i + 1] / 100000) * ((
+        decomp$lx_m[i] / decomp$lx_f[i]) -
+          (decomp$lx_m[i + 1] / decomp$lx_f[i + 1])))
+  }
+}
+
+# test decomposition accuracy
+life_exp_diff_decomp = sum(decomp$`n△x`)
+paste0("Life Expectancy difference from Decomposition: ",
+       round(life_exp_diff_decomp, 2))
+paste0("Life Expectancy difference from Life Table: ",
+       round(life_exp_female - life_exp_male, 2))
+```
+
+## Percentage contributions
+Calculate the percentage contribution for each age group in the difference between men and women
+```{r percentage_contribution}
+decomp$percent = round(decomp$`n△x` / sum(decomp$`n△x`) * 100, 2)
+
+# output table
+decomp %>%
+  gt() %>%
+  tab_style(style = cell_fill(color = "#1F78B4"),
+            locations = cells_column_labels(columns = 1:8))
+```
+
+# Decomposing Cause of Death
+More decomposition!!?? It's ok this is actually a bit easier I think
+
+## Adding in Heart Failure Data and $_nm^i_x$
+
+Where $_nm^i_x = \frac{_nd^i_x}{_nN_x}$
+
+```{r  cause_of_death}
+# add heart failure numbers and calculate nmix
+decomp$nmix_f = df_female$heart_failure / df_female$pop
+decomp$nmix_m = df_male$heart_failure / df_male$pop
+
+# add base nmx
+decomp$nmx_f = life_table_female$nmx
+decomp$nmx_m = life_table_male$nmx
+
+```
+
+## Output Table
+
+```{r output_decomp_md}
+decomp %>%
+  subset(select = c("n△x",	"nmix_f", "nmix_m",
+                    "nmx_f",	"nmx_m")) %>%
+  gt() %>%
+  tab_style(style = cell_fill(color = "#1F78B4"),
+            locations = cells_column_labels(columns = 1:5))
+```
+
+# Calculating $_n∆^i_x$
+Find the contribution in difference in age categories between men and women by Heart Failure as the cause of death. Does it help or hinder men's live expectancy when compared to women
+
+```{r decomp_heart_failure}
+# using formula from slides
+decomp$`n∆ix` = (decomp$nmix_f - decomp$nmix_m) / 
+  (decomp$nmx_f - decomp$nmx_m) *
+  decomp$`n△x`
+```
+
+## Output Table
+
+```{r output_new_decomp}
+decomp %>%
+  subset(select = c("n△x",	"nmix_f", "nmix_m",
+                    "nmx_f",	"nmx_m",	"n∆ix")) %>%
+  gt() %>%
+  tab_style(style = cell_fill(color = "#1F78B4"),
+            locations = cells_column_labels(columns = 1:6))
+
+```
+
+# Sulivan Method for Impairment
+Use the Sulivan Method to calculate life left without getting some form of vision loss
+
+## Calculate $H_x$
+
+```{r sulivan_one}
+life_table_female$Hx = 1 - df_female$blindess / df_female$pop
+life_table_male$Hx = 1 - df_male$blindess / df_male$pop
+```
+
+## Female Table 2015 (Partial or Total Loss of Vision)
+
+```{r female_table_sul}
+life_table_female %>%
+  gt() %>%
+  tab_style(style = cell_fill(color = "#1F78B4"),
+            locations = cells_column_labels(columns = 1:14))
+```
+
+## Male Table 2015 (Partial or Total Loss of Vision)
+
+```{r male_table_sul}
+life_table_male %>%
+  gt() %>%
+  tab_style(style = cell_fill(color = "#1F78B4"),
+            locations = cells_column_labels(columns = 1:14))
+```
+
+# Calculating $_nL^H_x$ and $T^H_x$
+
+```{r nLHx_and_THx}
+# nLHx
+life_table_female$nLHx = life_table_female$nLx * life_table_female$Hx
+life_table_male$nLHx = life_table_male$nLx * life_table_male$Hx
+
+# THx
+life_table_female$THx = rev(cumsum(rev(life_table_female$nLHx)))
+life_table_male$THx = rev(cumsum(rev(life_table_male$nLHx)))
+```
+
+## Female Table 2015 (Partial or Total Loss of Vision)
+
+```{r female_table_sula}
+life_table_female %>%
+  select(x, nNx, nDx, nLx, Tx, ex, Hx, nLHx, THx) %>% # cut so it fits
+  gt() %>%
+  tab_style(style = cell_fill(color = "#1F78B4"),
+            locations = cells_column_labels(columns = 1:9))
+```
+
+## Male Table 2015 (Partial or Total Loss of Vision)
+
+```{r male_table_sula}
+life_table_male %>%
+  select(x, nNx, nDx, nLx, Tx, ex, Hx, nLHx, THx) %>% # cut so it fits
+  gt() %>%
+  tab_style(style = cell_fill(color = "#1F78B4"),
+            locations = cells_column_labels(columns = 1:9))
+```
+
+# Healthy vs Unhealthy Life Expectancy
+
+Calculate E Dagger for Healthy and Unhealthy years left
+
+```{r life_exp_health}
+# eHx
+life_table_female$eHx = life_table_female$THx /
+  life_table_female$lx
+life_table_male$eHx = life_table_male$THx / 
+  life_table_male$lx
+
+# eUNx
+life_table_female$eUNx = life_table_female$ex -
+  life_table_female$eHx
+life_table_male$eUNx = life_table_male$ex -
+  life_table_male$eHx
+```
+
+## Female Table 2015 (Partial or Total Loss of Vision)
+
+```{r female_table_suli}
+life_table_female %>%
+  select(x, nLx, Tx, ex, Hx,
+         nLHx, THx, eHx, eUNx) %>% # cut so it fits
+  gt() %>%
+  tab_style(style = cell_fill(color = "#1F78B4"),
+            locations = cells_column_labels(columns = 1:9))
+```
+
+## Male Table 2015 (Partial or Total Loss of Vision)
+
+```{r male_table_suli}
+life_table_male %>%
+  select(x, nLx, Tx, ex, Hx,
+         nLHx, THx, eHx, eUNx) %>% # cut so it fits
+  gt() %>%
+  tab_style(style = cell_fill(color = "#1F78B4"),
+            locations = cells_column_labels(columns = 1:9))
+```
+
+# [Return to Homepage](index.html)

@@ -1,0 +1,183 @@
+---
+title: <span style="color:#FFD100">**Examining Fertility**<span>
+output: 
+  rmdformats::readthedown:
+    css: custom.css
+bibliography: pop_references.bib
+---
+
+# Introduction
+
+In this workbook, we show how using R it is possible explore the various ways the fertility and reproduction of the Palauan population. The data source is the 2015 Census Data as taken from the Demographic Statistics Database of UNData. What we aim to do is compute the Crude Birth Rates, the TFR, the GRR, the NRR, the IGR and the role of population structure in driving population growth through computing various measures of population momentum M (spoiler alert, its very marginal as Palau has a pretty stunningly stable population structure and fertility in 2015)
+
+# Loading Packages
+
+```{r load_packages, message=FALSE, error=FALSE}
+library(tidyverse)
+library(gt)
+```
+
+# Loading Data
+
+```{r load_data, message=FALSE}
+fertility_data = read_csv("data/fertility.csv")
+population_data = read_csv("data/pop_structure.csv") %>%
+  filter(Year == "2015")
+life_table_female = read_csv("data/life_table_female.csv")
+lx_data = life_table_female %>% select(age, nLx)
+```
+
+## Initial Table
+
+```{r initial_table}
+# output table
+fertility_data %>%
+  gt() %>%
+  tab_style(style = cell_fill(color = "#1F78B4"),
+            locations = cells_column_labels(columns = 1:4))
+```
+
+# Crude Birth Rate (CBR)
+
+```{r cbr}
+fertility_data$total_births = fertility_data$Male_Births + fertility_data$Female_Births
+
+# total births in 2015
+total_births_2015 = sum(fertility_data$total_births)
+
+# total population for 2015 (male + female populations)
+total_population_2015 = sum(population_data$Value)
+
+# crude rirth rate (CBR)
+CBR = (total_births_2015 / total_population_2015) * 1000
+
+paste("CBR for 2015 was:", round(CBR, 2))
+```
+
+# Total Fertility Rate (TFR)
+
+```{r tfr}
+fertility_data$asfr = fertility_data$total_births / fertility_data$Female_Population
+
+TFR = sum(fertility_data$asfr) * 5
+
+paste("TFR for 2015 was:", round(TFR, 2))
+```
+
+# Mean Age at Childbearing (MAC)
+
+```{r mac}
+central_ages = c(10, 22, 27, 32, 37, 42, 47)
+
+# mean Age at Childbearing (MAC) including male births
+MAC = sum(central_ages * fertility_data$total_births) / sum(fertility_data$total_births)
+
+paste("Mean Age at Childbearing for 2015 was:", round(MAC, 2))
+```
+
+# Tempo Adjusted TFR
+
+Per WPP, the change in MAC from 2014 to 2015 was from 28.6 to 28.6 so 0. This means that the Tempo Adjustement would make no difference for us. Plus interestingly the WPP values for MAC is different from our calculations, though we have had issues with the WPP in the past (see [TFR Estimates](tfr_plots.html)). For the sake of this we chose to estimate that mean age in childbearing increased by 0.1 years or 1.2 months in the period from 2014 to 2015
+
+```{r tempo_tfr}
+Tempo_TFR = TFR / (1 - 0.1)
+
+paste("Tempo-Adjusted TFR for 2015 was:", round(Tempo_TFR, 2))
+```
+
+# Gross Reproduction Rate (GRR)
+
+```{r grr}
+fertility_data$asfr_Female = fertility_data$Female_Births /
+  fertility_data$Female_Population
+
+# Gross Reproduction Rate (GRR)
+GRR = sum(fertility_data$asfr_Female) * 5
+
+paste("Gross Reproduction Rate GRR for 2015 was:", round(GRR, 2))
+```
+
+# Net Reproduction Rate (NRR)
+
+We took the data for lx from our own [Life Tables](life_tables.html)
+
+```{r nrr}
+# add lx data (made from our life tables)
+fertility_data = fertility_data %>% left_join(lx_data,
+                                              by = c("Mother_Age" = "age"))
+
+
+
+# calculate nrr
+NRR = 1/life_table_female$lx[1] * sum(fertility_data$asfr_Female * fertility_data$nLx) %>%
+  as.numeric()
+
+paste("Net Reproduction Rate NRR for 2015 was:", round(NRR, 2))
+```
+
+# Intrinsic Growth Rate (IGR)
+
+Through reversing the relationship between NRR and IGR so that: $IGR = \frac{ln(NRR)}{MAC}$
+
+```{r igr}
+# calc IGR by reversing the NRR from r forumla
+IGR = log(NRR) / MAC
+paste("Intrinsic Growth Rate for 2015 was:", IGR)
+```
+
+# Population momentum
+
+Using three methods, calculate the influence of population structure on future population growth, assuming NRR = 1 (which it somewhat is...). The three methods are Keyfitz (1971), Frauenthal (1975), and Kim & Schoen (1997)
+
+## Keyfitz
+
+```{r keyfitz}
+Mk = (CBR / 1000) * life_table_female$ex[1] / (IGR * MAC) * (NRR - 1) / NRR
+
+paste("M according to Keyfitz:", round(Mk, 6))
+```
+
+## Frauenthal
+
+```{r frauenthal}
+Mf = (CBR / 1000) * 
+  life_table_female$ex[1] / # female life exp
+  sqrt(NRR)
+
+paste("M according to Frauenthal:", round(Mf, 6))
+```
+
+## Kim & Schoen
+
+```{r kim_and_schoen}
+Mks = (sum(life_table_female$nNx[1:7]) / # female pop 0-30
+  sum(life_table_female$nNx)) /
+  ((life_table_female$Tx[1] - life_table_female$Tx[8]) /
+  life_table_female$Tx[1])
+
+paste("M according to Kim & Schoen:", round(Mks, 6))
+```
+
+# Future population size
+
+This might be a bit tricky as NRR is already very very close to 1, but maybe for the sake of analysis lets say it takes 3 years to get there by 2018. We are going to use two methods for this gradual M estimate, Li & Tuljapurkar and Goldstein & Stecklov
+
+## Li & Tuljapurkar
+
+```{r li_and_tuljapurkar}
+Mlt = Mk * (exp(IGR * 3) - 1) / (IGR * 3)
+
+paste("M according to Li & Tuljapurkar:", round(Mlt, 6))
+```
+
+## Goldstein & Stecklov
+
+```{r goldstein_and_stecklov}
+Mgs = Mk * exp(IGR * 3 / 2)
+
+paste("M according to Goldstein & Stecklov:", round(Mgs, 6))
+```
+
+# 
+
+# [Return to Homepage](index.html)

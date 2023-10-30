@@ -23,8 +23,10 @@ Palau has a history marked by various international influences, having experienc
 
 ## [Population Structure and Growth](population_structure.html)
 
-## Mortality
+## [Mortality](mortality.html)
 
-## Fertility and Reproduction
+## [Fertility and Reproduction](fertility.html)
 
-## Life tables
+## [Life Tables](life_tables.html)
+
+## [Bonus Demographics of the Shire](shire_tally.html)

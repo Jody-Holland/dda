@@ -3,53 +3,81 @@ title: <span style="color:#FFD100">**Exploring Population Structure**<span>
 output: 
   rmdformats::readthedown:
     css: custom.css
-bibliography: pop_references.bib
 ---
 
 # Introduction
 
-In this short workbook, we outline how using R we can visualise and explore the various ways to understand the structure and growth of the Palauan population. The data source is the Demographic Statistics Database of UNData [@unitednations2022]. What we aim to do is compute the growth rates and visualise the changing population pyramid.
+In this short workbook, we outline how using R we can visualise and explore the various ways to understand the structure and growth of the Palauan population. The data source is the Demographic Statistics Database of UNData. What we aim to do is compute the growth rates and visualise the changing population pyramid.
 
-# Code
-
-Below is the code used to achieve this analysis.
-
-## Loading Packages
-
-First we load the tidyverse() library of R packages [@tidyverse], which includes the ggplot2() package [@ggplot2], the dplyr() package [@dplyr]. We also use the ggthemes() package for cool styling later [@ggthemes] and the gganimate() package for outputting animated graphics [@gganimate].
+# Loading Packages
 
 ```{r load_packages, message=FALSE, warning=FALSE}
 library(tidyverse)
 library(gganimate)
 library(gt)
 library(ggthemes)
+library(plotly)
 ```
 
-## Calculating Growth rate
+# Calculating Growth rate
 
-```{r growth_rate_data, message=FALSE}
-# load data
-pop_size = read_csv("data/total_pop.csv")
+Output full pop structure data for each census year from 1958 to present
 
+```{r population_data, message=FALSE}
+# load raw population tables
+population_data = read_csv("data/pop_structure.csv") %>%
+  as_tibble()
+
+# output table
+population_data %>%
+  gt() %>%
+  tab_options(ihtml.active = TRUE,
+              ihtml.use_page_size_select = TRUE)
+```
+
+## Year Totals
+
+Determine to yearly totals of population from the census for each year
+
+```{r calculate_year_totals}
+# use groupby() to calculate year totals of pop
+pop_size = population_data %>%
+  group_by(Year) %>%
+  summarise(Value = sum(Value))
+```
+
+### Total Population of Palau by Year of Census
+
+```{r year_totals}
 # output table
 pop_size %>%
   gt() %>%
   tab_style(style = cell_fill(color = "#1F78B4"),
-            locations = cells_column_labels(columns = 1:8))
+            locations = cells_column_labels(columns = 1:2))
 ```
+
+## Growth Rate Calculations
+
+Calculate the Instantous Growth Rate using natural logs
 
 ```{r growth_rate_calculate}
 # create new data frame to track intervals
 growth_rates = data.frame(
-  StartYear = pop_size$Year[-1],
-  EndYear = pop_size$Year[-length(pop_size$Year)],
-  StartYearPop = pop_size$Value[-1],
-  EndYearPop = pop_size$Value[-length(pop_size$Value)]
+  StartYear = pop_size$Year[-length(pop_size$Year)],
+  EndYear = pop_size$Year[-1],
+  StartYearPop = pop_size$Value[-length(pop_size$Value)],
+  EndYearPop = pop_size$Value[-1]
 )
 
 # calculate yearly crude growth rate
-growth_rates$GrowthRate = log(growth_rates$EndYearPop / growth_rates$StartYearPop) / (growth_rates$EndYear - growth_rates$StartYear) * 100
+growth_rates$GrowthRate = round(log(growth_rates$EndYearPop /
+                                      growth_rates$StartYearPop) /
+                                  (growth_rates$EndYear - growth_rates$StartYear) * 100, 2)
+```
 
+### Annualised IGR for Palau by Census Year
+
+```{r output_growth_rate}
 # output table
 growth_rates %>%
   gt() %>%
@@ -57,7 +85,9 @@ growth_rates %>%
             locations = cells_column_labels(columns = 1:5))
 ```
 
-## Doubling / Halving Time
+# Doubling / Halving Time
+
+Use a for loop to determine whether to growth rate is positive or negative, and calculate doubling or halving time as such
 
 ```{r half_and_double}
 growth_rates$DoublingTime = NA  # fill "DoublingTime" column with na
@@ -69,15 +99,19 @@ for (i in 1:nrow(growth_rates)) { # do this for every roe
   
   # calculate "DoublingTime" for positive growth rates
   if (gr > 0) {
-    growth_rates$DoublingTime[i] = log(2) / (gr / 100)
+    growth_rates$DoublingTime[i] = round(log(2) / (gr / 100), 2)
   }
   
   # calculate "HalvingTime" for negative growth rates
   if (gr < 0) {
-    growth_rates$HalvingTime[i] = log(0.5) / (gr / 100)
+    growth_rates$HalvingTime[i] = round(log(0.5) / (gr / 100), 2)
   }
 }
+```
 
+### Doubling/Halving Time of the Palau Population by Census Year
+
+```{r output_doubling}
 # output results
 growth_rates %>%
   gt() %>%
@@ -85,44 +119,34 @@ growth_rates %>%
             locations = cells_column_labels(columns = 1:7))
 ```
 
-## Dependency Ratio
+# Dependency Ratio
 
-```{r population_data, message=FALSE}
-# load raw population tables
-population_data = read_csv("data/pop_pyramid.csv") %>%
-  as_tibble()
-
-# output table
-population_data %>%
-  gt() %>%
-  tab_options(ihtml.active = TRUE,
-              ihtml.use_page_size_select = TRUE)
-  
-
-```
+Set different age categories and use this to label rows to then compute various dependency ratios.
 
 ```{r pop_pyramid_dependency}
 # define the vector of working age groups
 working_age = c("20 to 24",
-                 "25 to 29",
-                 "30 to 34",
-                 "35 to 39",
-                 "40 to 44",
-                 "45 to 49",
-                 "50 to 54",
-                 "55 to 59",
-                 "60 to 64")
+                "25 to 29",
+                "30 to 34",
+                "35 to 39",
+                "40 to 44",
+                "45 to 49",
+                "50 to 54",
+                "55 to 59",
+                "60 to 64")
 
+# define the vector of youth age groups
 youth_age = c("00 to 04",
               "05 to 09",
               "10 to 14",
               "15 to 19")
 
+# define the vector of old age groups
 old_age = c("65 to 69",
             "70 to 74",
             "75 plus")
 
-# Calculate the youth dependency ratio
+# calculate the youth dependency ratio
 youth_dependency = population_data %>%
   group_by(Year) %>%
   summarize(YDR = sum(Value[Age %in% youth_age]) /
@@ -146,44 +170,110 @@ dependency_ratios = youth_dependency %>%
   left_join(old_age_dependency, by = "Year") %>%
   left_join(total_dependency, by = "Year")
 
+# create function to round all numeric variables
+round_df = function(x, digits) {
+  # x is the data frame
+  # digits is number of digits to round
+  numeric_columns = sapply(x, mode) == 'numeric'
+  x[numeric_columns] = round(x[numeric_columns], digits)
+  x
+}
+```
 
+### Dependency Ratios for Palau by Census Year
+
+```{r dependency_tables}
 # output results
-dependency_ratios %>%
+round_df(dependency_ratios, 2) %>%
   gt() %>%
   tab_style(style = cell_fill(color = "#1F78B4"),
             locations = cells_column_labels(columns = 1:4))
 ```
 
-## Median Age
+# Median Age
+
+Calculate the median age through mapping on mid points and calculating a weighted mean
 
 ```{r median_age}
 
 # set mid points for age
-age_mapping <- c(
+age_mapping = c(
   "00 to 04" = 2,
   "05 to 09" = 7,
+  "10 to 14" = 12,
   "15 to 19" = 17,
+  "20 to 24" = 22,
+  "25 to 29" = 27,
+  "30 to 34" = 32,
+  "35 to 39" = 37,
+  "40 to 44" = 42,
+  "45 to 49" = 47,
+  "50 to 54" = 52,
+  "55 to 59" = 57,
+  "60 to 64" = 62,
   "65 to 69" = 67,
   "70 to 74" = 72,
   "75 plus" = 80
 )
 
 # calculate median
-median_age_data <- population_data %>%
+median_age_data = population_data %>%
   mutate(Numeric_Age = age_mapping[Age]) %>%
   filter(!is.na(Numeric_Age)) %>%
   group_by(Year) %>%
-  summarize(Median_Age = weighted.mean(Numeric_Age, Value, na.rm = TRUE))
+  summarize(Median_Age = weighted.mean(Numeric_Age,
+                                       Value, na.rm = TRUE))
 
+```
+
+### Palau Median Age by Census Year
+
+```{r median_table}
 # output results
-median_age_data %>%
+round_df(median_age_data, 2) %>%
   gt() %>%
   tab_style(style = cell_fill(color = "#1F78B4"),
             locations = cells_column_labels(columns = 1:2))
 
 ```
 
-## Population Pyramids
+# Population Pyramids
+
+Wrangle the data to be fit for plotting into population pyramids
+
+```{r pop_data_bind}
+# two easy joins
+population_data = left_join(population_data,
+                            median_age_data,
+                            by = ("Year" = "Year"))
+
+population_data = left_join(population_data,
+                            dependency_ratios,
+                            by = ("Year" = "Year"))
+
+# strip back growth rate df
+growth_rates$Year = growth_rates$EndYear
+growth_rates$Total_Pop = growth_rates$EndYearPop
+growth_rates_simp = growth_rates %>%
+  select(Year, Total_Pop, GrowthRate)
+
+# add info for 1958
+start_year_info = growth_rates[growth_rates$StartYear == 1958, ]
+start_year_info$Year = start_year_info$StartYear
+start_year_info = start_year_info %>%
+  select(Year, Total_Pop)
+start_year_info$GrowthRate = NA
+growth_rates_simp = rbind(growth_rates_simp, start_year_info)
+
+# join
+population_data = left_join(population_data,
+                            growth_rates_simp,
+                            by = ("Year" = "Year"))
+```
+
+### Animated Population Pyramid
+
+Using gganimate make an animated gif of the population development
 
 ```{r pop_pyramid_gif, message=FALSE}
 # create ggplot object 
@@ -211,11 +301,28 @@ anim_save(animation = anim_pop, filename ="pop_pyramid.gif")
 
 ![](pop_pyramid.gif)
 
-```{r pop_pyramid_every_year}
+### Making a Static Plot for each Year
+
+Also output a static png for each year using a for loop. Add in the data on the dependency ratios and median age into subtitles.
+
+```{r static_pop_pyramid_every_year}
 # loop through each unique year
 for (year in unique(population_data$Year)) {
   # filter data for the current year
   year_data = subset(population_data, Year == year)
+  title = paste('Palau Population in', unique(year_data$Year))
+  subtitle = paste("Total Population:",
+                    unique(year_data$Total_Pop),
+                   ", YDR:", round(
+                    unique(year_data$YDR), 2),
+                   ", ODR:", round(
+                    unique(year_data$ODR), 2),
+                   ", TDR:", round(
+                    unique(year_data$TDR), 2),
+                   ", Median Age:", round(
+                    unique(year_data$Median_Age), 2),
+                   ", Growth Rate:", round(
+                    unique(year_data$GrowthRate), 2))
   
   # create the population pyramid plot for the current year
   population_plot = ggplot(year_data, aes(
@@ -226,9 +333,12 @@ for (year in unique(population_data$Year)) {
     coord_flip() +
     xlab("Age") + 
     ylab("Population") +
-    labs(title = 'Palau Population in ', year, fill= "Sex") +
+    labs(title = title,
+         subtitle = subtitle, 
+         fill= "Sex") +
     # get rid of the male negative effect
-    scale_y_continuous(labels = abs) +
+    scale_y_continuous(labels = abs,
+                       limits = c(-1500, 1500)) +
     theme_solarized_2()
 
   # save the plot as a .png file with the year in the filename
@@ -238,6 +348,4 @@ for (year in unique(population_data$Year)) {
 
 ```
 
-## [Return to Homepage](index.html)
-
-# Bibliography
+# [Return to Homepage](index.html)

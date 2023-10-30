@@ -1,0 +1,276 @@
+---
+title: <span style="color:#FFD100">**Analysising Mortality**<span>
+output: 
+  rmdformats::readthedown:
+    css: custom.css
+---
+
+# Introduction
+
+Here, we demostrate how using R we can explore the the mortality of the Palauan population in 2005. We compare this with data from the Cook Islands in 2006. What we aim to do is compute the Crude Death Rates and then use standardisation to compare the two. We also use decomposition to explore the age-group specific role age composition and mortality play in explaining this difference.
+
+# Load Packages
+
+```{r load_packages, message = FALSE, warning=FALSE}
+library(tidyverse)
+library(ggthemes)
+library(gt)
+```
+
+# Crude Mortality
+
+Compute CDR for both Palau and the Cook Islands
+
+```{r load_data, message=FALSE}
+mortality = read_csv("data/mortality.csv")
+```
+
+## Initial Data
+
+Split the data into each island
+
+```{r mort_data_base}
+mortality %>%
+  gt() %>%
+  tab_style(style = cell_fill(color = "#1F78B4"),
+            locations = cells_column_labels(columns = 1:5))
+```
+
+After splitting the data calculate age specific death rate for both island nations
+We do this for each age group in the data.
+
+```{r split_data}
+# split the data to calculate 
+cook_mortality = mortality %>%
+  filter(Island == "Cook Islands")
+palau_mortality = mortality %>%
+  filter(Island == "Palau")
+
+# find total pop
+cook_total = sum(cook_mortality$Population)
+palau_total = sum(palau_mortality$Population)
+
+# find age group proporitions for age composition
+cook_mortality$Proportion_Age = cook_mortality$Population /
+  cook_total
+
+palau_mortality$Proportion_Age = palau_mortality$Population /
+  palau_total
+
+# calculate age specific death rate
+cook_mortality$Death_Rate = cook_mortality$Deaths /
+  cook_mortality$Population
+
+palau_mortality$Death_Rate = palau_mortality$Deaths /
+  palau_mortality$Population
+```
+
+## Cook Mortality 2006
+
+```{r cook_mort}
+cook_mortality %>%
+  gt() %>%
+  tab_style(style = cell_fill(color = "#1F78B4"),
+            locations = cells_column_labels(columns = 1:7))
+```
+
+## Palau Mortality 2005
+
+```{r palau_mort}
+palau_mortality %>%
+  gt() %>%
+  tab_style(style = cell_fill(color = "#1F78B4"),
+            locations = cells_column_labels(columns = 1:7))
+```
+
+We now sum up the age death rates into a crude death rate.
+
+```{r crude_death}
+
+cook_cdr = sum(cook_mortality$Deaths) / 
+  sum(cook_mortality$Population) * 1000
+
+palau_cdr = sum(palau_mortality$Deaths) / 
+  sum(palau_mortality$Population) * 1000
+
+paste("Cook Islands Crude Death Rate:", round(cook_cdr, 2), "per 1000")
+
+paste("Palau Crude Death Rate:", round(palau_cdr, 2), "per 1000")
+```
+
+# Standardisation
+
+Using Standardisation we can compare the death rates in three ways. Seeing how each place would function under the others' age composition, and seeing how they would function using the mean age composition between the two.
+
+```{r standardisation}
+
+# average age composition
+standardisation = data.frame(
+  Age = cook_mortality$Age,
+  Age_Dist_Cook = cook_mortality$Proportion_Age, # age composition cook
+  Age_Dist_Palau = palau_mortality$Proportion_Age, # age compoistion # palau
+  Death_Rate_Cook = cook_mortality$Death_Rate,
+  Death_Rate_Palau = palau_mortality$Death_Rate
+)
+
+# calculated average age distribution per row
+standardisation$Age_Dist_Average = (standardisation$Age_Dist_Cook +
+  standardisation$Age_Dist_Palau) / 2
+
+# calculate death rate standard average dist for palau and cook islands
+standardisation$Death_Rate_Cook_Average_Age = standardisation$Death_Rate_Cook *
+  standardisation$Age_Dist_Average
+
+standardisation$Death_Rate_Palau_Average_Age = standardisation$Death_Rate_Palau *
+  standardisation$Age_Dist_Average
+
+# calculate cross standards
+standardisation$Death_Rate_Cook_Palau_Age = standardisation$Death_Rate_Cook *
+  standardisation$Age_Dist_Palau
+
+standardisation$Death_Rate_Palau_Cook_Age = standardisation$Death_Rate_Palau *
+  standardisation$Age_Dist_Cook
+
+standardisation %>%
+  gt() %>%
+  tab_style(style = cell_fill(color = "#1F78B4"),
+            locations = cells_column_labels(columns = 1:10))
+
+# output standardised crudes
+standard_cook_cdr_average = sum(standardisation$Death_Rate_Cook_Average_Age) *
+  1000
+standard_palau_cdr_average = sum(standardisation$Death_Rate_Palau_Average_Age) *
+  1000
+standard_cook_cdr_palau = sum(standardisation$Death_Rate_Cook_Palau_Age) *
+  1000
+standard_palau_cdr_cook = sum(standardisation$Death_Rate_Palau_Cook_Age) *
+  1000
+```
+
+```{r output_rates, echo=FALSE}
+paste("Cook Islands Death Rate Standardised on Average Age Distribution/A_SCDR^CI:",
+      round(standard_cook_cdr_average, 2), "per 1000")
+paste("Palau Age Standardised on Average Age Distribution/A_SCDR^P:",
+      round(standard_palau_cdr_average, 2), "per 1000")
+paste("Cook Islands Death Rate Standardised on Palau Age Distribution/P_ASCDR^CI:",
+      round(standard_cook_cdr_palau, 2), "per 1000")
+paste("Palau Cook Islands Death Rate Standardised on Cook Islands Age Distribution/CI_ASCDR^P:",
+      round(standard_palau_cdr_cook, 2), "per 1000")
+```
+
+# Comparison Table
+
+We can output this into a nice lil' table
+
+```{r comparison_table}
+comparison_table = data.frame(
+  Death_Rate_Method = c("Crude Death Rate per 1000",
+                        "Standardised on Average Age Distribution per 1000",
+                        "Standardised on Cook Islands Age Distribution per 1000",
+                        "Standardised on Palau Age Distribution per 1000"),
+  Palau_2005 = c(round(palau_cdr, 2),
+                 round(standard_palau_cdr_average, 2),
+                 round(standard_palau_cdr_cook, 2),
+                 round(palau_cdr, 2)),
+  Cook_Islands_2006 = c(round(cook_cdr, 2),
+                        round(standard_cook_cdr_average, 2),
+                        round(cook_cdr, 2),
+                        round(standard_cook_cdr_palau, 2))
+)
+
+comparison_table$Difference = comparison_table$Palau_2005 - 
+  comparison_table$Cook_Islands_2006
+```
+
+## Standardisation Results
+
+```{r comp_output}
+comparison_table %>%
+  gt() %>%
+  tab_style(style = cell_fill(color = "#1F78B4"),
+            locations = cells_column_labels(columns = 1:4))
+
+```
+
+# Decomposition
+
+We can also use decomposition techniques to explore the role of age composition and death rates on this difference between the Cook Islands and Palau.
+
+```{r decomposition}
+# set up decomposition dataframe
+decomposition = standardisation = data.frame(
+  Age = cook_mortality$Age,
+  Age_Dist_Palau = palau_mortality$Proportion_Age,
+  Age_Dist_Cook = cook_mortality$Proportion_Age,
+  Death_Rate_Palau = palau_mortality$Death_Rate,
+  Death_Rate_Cook = cook_mortality$Death_Rate
+)
+
+# kitagawa decomposition to determine contribution from age dist
+decomposition$Contribution_Age_Dist = (decomposition$Age_Dist_Palau -
+  decomposition$Age_Dist_Cook) *
+  ((decomposition$Death_Rate_Palau + 
+      decomposition$Death_Rate_Cook) / 2)
+
+# kitagawa decomposition to determine contribution from death rates
+decomposition$Contribution_Death_Rate = (decomposition$Death_Rate_Palau -
+  decomposition$Death_Rate_Cook) *
+  ((decomposition$Age_Dist_Palau + 
+      decomposition$Age_Dist_Cook) / 2)
+
+# contribution sum
+contribution_age = sum(decomposition$Contribution_Age_Dist)
+contribution_death = sum(decomposition$Contribution_Death_Rate)
+difference = contribution_age + contribution_death
+proportion_age = contribution_age / difference
+proportion_death = contribution_death / difference
+```
+
+## Decomposition Results
+
+```{r}
+# output table
+decomposition %>%
+  gt() %>%
+  tab_style(style = cell_fill(color = "#1F78B4"),
+            locations = cells_column_labels(columns = 1:7))
+```
+
+```{r}
+# output contributions
+paste("Difference in Crude Death Rate:",
+      round(difference * 1000, 2))
+paste("Contribution of Differences in Age Composition:",
+      round(contribution_age * 1000, 2))
+paste("Contribution of Differences in Death Rates:",
+      round(contribution_death * 1000, 2))
+paste("Share of Contribution of Differences in Age Composition:",
+      round(proportion_age * 100, 2),"%")
+paste("Share of Contribution of Differences in Death Rates:",
+      round(proportion_death * 100, 2),"%")
+```
+
+# Stacked Bar Chart
+
+Lets visualise this on a stacked bar graph.
+
+```{r graph}
+
+decomp_long = decomposition %>%
+  pivot_longer(cols = starts_with("Contribution"), names_to = "Contribution_Type", values_to = "Value") %>%
+  mutate(Contribution_Type = factor(Contribution_Type, levels = c("Contribution_Age_Dist", "Contribution_Death_Rate")))
+
+p = ggplot(decomp_long, aes(x = Age, y = Value, fill = Contribution_Type)) +
+  geom_bar(stat = "identity", position = "stack") +
+  scale_fill_manual(values = c("Contribution_Age_Dist" = "lightblue", "Contribution_Death_Rate" = "lightgreen")) +
+  labs(x = "Age Group",
+       y = "Contribution",
+       title = "Contributions of Death Rate and Age Comoposition ",
+       subtitle = "In explaining Palau's Higher CDR over the Cook Islands Broken Down by Age Group") +
+  theme_solarized_2() +
+  theme(axis.text.x = element_text(angle = 45, hjust = 1))
+p
+ggsave("stacked_bar.png", p)
+```
+
+# [Return to Homepage](index.html)

@@ -3,22 +3,15 @@ title: <span style="color:#FFD100">**Plotting TFR Estimates**<span>
 output: 
   rmdformats::readthedown:
     css: custom.css
-bibliography: tfr_references.bib
 ---
 
 # Introduction
 
-In this short workbook, we outline how using R we can visualise and compare the various computations of the Palau TFR overtime. The data source is the World Population Prospects, @unitednations2022. What we aim to do is compare the different estimates with the aggregate WPP estimates.
+In this short workbook, we outline how using R we can visualise and compare the various computations of the Palau TFR overtime. The data source is the World Population Prospects. What we aim to do is compare the different estimates with the aggregate WPP estimates.
 
 [![](images/paste-3A06C110.png)](https://population.un.org/wpp/)
 
-# Code
-
-Below is the code used to build the scatter plot comparison.
-
-## Loading the Packages
-
-First we load the tidyverse() library of R packages [@tidyverse], which includes the ggplot2() package [@ggplot2], the dplyr() package [@dplyr], and the plotly() package [@plotly]. We also use the ggthemes() package for cool styling later [@ggthemes] and the gt() package for outputting html tables [@gt].
+# Loading the Packages
 
 ```{r load_packages, message=FALSE, warning=FALSE}
 library(tidyverse)
@@ -27,7 +20,7 @@ library(plotly)
 library(gt)
 ```
 
-## Loading the data
+# Loading the data
 
 Next we load our two .csv data into R as two tibble objects. One, "e_tfr" is a compilation of all the different estimates for TFR by data source and method. The tibble has four columns: "data_souce, estimate_method, estimated_tfr, estimated_year". The other, "wpp_tfr" is the WPP approximations for TFR 1960-2020 @unitednations2022
 
@@ -40,7 +33,7 @@ e_tfr = read_csv("data/tfr_estimates.csv") %>%
 wpp_tfr = e_tfr %>% filter(data_source == "WPP")
 ```
 
-## Source Table
+# Source Table
 
 ```{r table, message=FALSE}
 # make a table of unique combos of Source + method
@@ -55,7 +48,7 @@ unique_combinations %>%
             locations = cells_column_labels(columns = 1:2))
 ```
 
-## Static Plots
+# Static Plots
 
 Now, we use ggplot2() to compute the first static data visualisation. This shows all the different estimated TFR from the 'e_tfr' tibble.
 
@@ -95,9 +88,9 @@ wpp = ggplot(wpp_tfr, aes(x = estimated_year,
 wpp
 ```
 
-## Make interactive
+# Make interactive
 
-Using the ggplotly function from the plotly package, we can make the plot interactive so it is possible to select which data you want to see and zoom + export a custom png. This is very challenging however and could also probably be achieved in Shiny with more ease (though I would have to host a backend which can be \$\$\$)
+Using the ggplotly function from the plotly package, we can make the plot interactive so it is possible to select which data you want to see and zoom + export a custom png. This is very challenging however and could also probably be achieved in Shiny with more ease (though I would have to host a backend which can be £££)
 
 ```{r interactive_plot}
 # set plotly boundaries
@@ -107,12 +100,12 @@ est_plotly = ggplotly(est, width = 800, height = 2000)
 # Create a list of buttons
 buttons = list()
 
-# Access the levels of the color scale for the correct order
+# access the levels of the color scale for the correct order
 
 unique_combinations = apply(unique_combinations, 1,
                             function(row) paste(row, collapse = "-"))
 
-# Create a button for each level in the correct order
+# create a button for each level in the correct order
 for (i in seq_along(unique_combinations)) {
   visibility_vals = rep(FALSE, length(unique_combinations))
   visibility_vals[i] = TRUE
@@ -158,11 +151,11 @@ est_plotly
 
 ```
 
-## Difference WPP and Estimates
+# Difference WPP and Estimates
 
-Now I want to compute and visualise the difference betweent the WPP line and the different estimates
+Now I want to compute and visualise the difference between the WPP line and the different estimates
 
-```{r differnce_calculation}
+```{r differnce_calculation, message=FALSE, warning=FALSE}
 # drop WPP from data
 calc_tfr = e_tfr %>% filter(data_source != "WPP")
 
@@ -176,12 +169,18 @@ calc_tfr = calc_tfr %>%
   mutate(difference = estimated_tfr - wpp_tfr)
 ```
 
+## Line of Best Fit Scatter
+
 We can visualise this data per year of estimate as a simple point and line of best fit graph
 
 ```{r line_graph, fig.width = 12, fig.height = 12, warning = FALSE}
+# calculate lobf
 difference_model = lm(difference ~ estimated_year, data = calc_tfr)
+
+# extract r squared
 r_squared = summary(difference_model)$r.squared
 
+# plot graph
 ggplot(calc_tfr, aes(x = estimated_year,
                      y = difference,
                      color = estimate_method,
@@ -210,8 +209,4 @@ ggplot(calc_tfr, aes(x = estimated_year,
   theme_solarized_2()
 ```
 
-# Homepage
-
-## [Return to Homepage](index.html)
-
-# Bibliography
+# [Return to Homepage](index.html)
