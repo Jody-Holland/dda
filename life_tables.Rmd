@@ -13,6 +13,7 @@ Using IMHE and Census Data we complied a life table together in R for Palau in 2
 
 ```{r load_packages, message=FALSE, warning=FALSE}
 library(tidyverse)
+library(ggthemes)
 library(gt)
 ```
 
@@ -389,37 +390,38 @@ Set up decomposition table with data from the life table
 ```{r decomposing_set_up}
 # set up dataframe
 decomp = tibble(
- lx_f = life_table_female$lx,
- nLx_f = life_table_female$nLx,
- Tx_f = life_table_female$Tx,
- lx_m = life_table_male$lx,
- nLx_m = life_table_male$nLx,
- Tx_m = life_table_male$Tx
+  x = life_table_female$x,
+  lx_f = life_table_female$lx,
+  nLx_f = life_table_female$nLx,
+  Tx_f = life_table_female$Tx,
+  lx_m = life_table_male$lx,
+  nLx_m = life_table_male$nLx,
+  Tx_m = life_table_male$Tx
 )
 
 # show table
 decomp %>%
   gt() %>%
   tab_style(style = cell_fill(color = "#1F78B4"),
-            locations = cells_column_labels(columns = 1:6))
+            locations = cells_column_labels(columns = 1:7))
 ```
 ## Calculating differnce
 Try to get the fancy up arrow symbol in the dataframe. Use a very very tricky for loop to decompose between genders. Check at end if it works!
 
 ```{r decomp_calculate}
 # create blank column
-decomp$`n△x` = NA
+decomp$`n∆x` = NA
 
 # use female a for loop to to the calc
 for(i in seq(decomp$lx_m)){
   # open ended age group
   if(i == 18){
-    decomp$`n△x`[i] = (decomp$lx_m[i] / 100000) *
+    decomp$`n∆x`[i] = (decomp$lx_m[i] / 100000) *
       ((decomp$Tx_f[i] / decomp$lx_f[i]) - 
          (decomp$Tx_m[i] / decomp$lx_m[i]))
   # other age groups
   } else {
-    decomp$`n△x`[i] = ((decomp$lx_m[i] / 100000) *
+    decomp$`n∆x`[i] = ((decomp$lx_m[i] / 100000) *
       ((decomp$nLx_f[i] / decomp$lx_f[i]) - 
          (decomp$nLx_m[i] / decomp$lx_m[i]))) +
       ((decomp$Tx_f[i + 1] / 100000) * ((
@@ -429,7 +431,7 @@ for(i in seq(decomp$lx_m)){
 }
 
 # test decomposition accuracy
-life_exp_diff_decomp = sum(decomp$`n△x`)
+life_exp_diff_decomp = sum(decomp$`n∆x`)
 paste0("Life Expectancy difference from Decomposition: ",
        round(life_exp_diff_decomp, 2))
 paste0("Life Expectancy difference from Life Table: ",
@@ -439,13 +441,13 @@ paste0("Life Expectancy difference from Life Table: ",
 ## Percentage contributions
 Calculate the percentage contribution for each age group in the difference between men and women
 ```{r percentage_contribution}
-decomp$percent = round(decomp$`n△x` / sum(decomp$`n△x`) * 100, 2)
+decomp$percent = round(decomp$`n∆x` / sum(decomp$`n∆x`) * 100, 2)
 
 # output table
 decomp %>%
   gt() %>%
   tab_style(style = cell_fill(color = "#1F78B4"),
-            locations = cells_column_labels(columns = 1:8))
+            locations = cells_column_labels(columns = 1:9))
 ```
 
 # Decomposing Cause of Death
@@ -470,11 +472,11 @@ decomp$nmx_m = life_table_male$nmx
 
 ```{r output_decomp_md}
 decomp %>%
-  subset(select = c("n△x",	"nmix_f", "nmix_m",
+  subset(select = c("x", "n∆x",	"nmix_f", "nmix_m",
                     "nmx_f",	"nmx_m")) %>%
   gt() %>%
   tab_style(style = cell_fill(color = "#1F78B4"),
-            locations = cells_column_labels(columns = 1:5))
+            locations = cells_column_labels(columns = 1:6))
 ```
 
 # Calculating $_n∆^i_x$
@@ -484,20 +486,72 @@ Find the contribution in difference in age categories between men and women by H
 # using formula from slides
 decomp$`n∆ix` = (decomp$nmix_f - decomp$nmix_m) / 
   (decomp$nmx_f - decomp$nmx_m) *
-  decomp$`n△x`
+  decomp$`n∆x`
 ```
 
 ## Output Table
 
 ```{r output_new_decomp}
 decomp %>%
-  subset(select = c("n△x",	"nmix_f", "nmix_m",
+  subset(select = c("x","n∆x",	"nmix_f", "nmix_m",
                     "nmx_f",	"nmx_m",	"n∆ix")) %>%
   gt() %>%
   tab_style(style = cell_fill(color = "#1F78B4"),
-            locations = cells_column_labels(columns = 1:6))
+            locations = cells_column_labels(columns = 1:7))
 
 ```
+
+```{r plot_decomp, warning = FALSE}
+# create long data to plot
+decomp$heart_failure = decomp$`n∆ix`
+decomp$remaining = decomp$`n∆x` - decomp$`n∆ix`
+decomp_toplot = decomp %>%
+  select(x, remaining, heart_failure) %>%
+  pivot_longer(cols = c(remaining, heart_failure),
+               names_to = "type",
+               values_to = "value") %>%
+  mutate(type = ifelse(type == "heart_failure",
+                       "Cardiovascular Disease",
+                       "Remaining"))
+
+# plot
+p = ggplot(decomp_toplot, aes(x = x, y = value, fill = type)) +
+  geom_col(stat = "identity", position = "stack", width = 5) +
+  scale_x_continuous(breaks = seq(0, 85, by = 5),
+                     labels = c("0",
+                                      "1-4",
+                                      "5-9",
+                                      "10-14",
+                                      "15-19",
+                                      "20-24",
+                                      "25-29",
+                                      "30-34",
+                                      "35-39",
+                                      "40-44",
+                                      "45-49",
+                                      "50-54",
+                                      "55-59",
+                                      "60-64",
+                                      "65-69",
+                                      "70-74",
+                                      "75-79",
+                                      "80+")) +
+  scale_y_continuous("Years of Female Life Surplus") +
+  scale_fill_manual(values = c("Remaining" = "#AEDFF7",
+                               "Cardiovascular Disease" = "#D17A7A")) +
+  labs(x = "Age",
+       y = "Years",
+       title = "Life Expectancy Differences between Sex by Age Group and Cause of Death",
+       subtitle = "Represents the cause-specific impact of Cardiovascular Disease",
+       fill = "Contribution") +
+  theme_solarized_2() +
+  theme(axis.text.x = element_text(angle = 45, hjust = 1))
+
+p
+
+ggsave("stacked_bar_cause_specific.png", p)
+```
+
 
 # Sulivan Method for Impairment
 Use the Sulivan Method to calculate life left without getting some form of vision loss
@@ -558,6 +612,7 @@ life_table_male %>%
   tab_style(style = cell_fill(color = "#1F78B4"),
             locations = cells_column_labels(columns = 1:9))
 ```
+
 
 # Healthy vs Unhealthy Life Expectancy
 

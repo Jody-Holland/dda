@@ -255,18 +255,27 @@ paste("Share of Contribution of Differences in Death Rates:",
 Lets visualise this on a stacked bar graph.
 
 ```{r graph}
-
+# make into long toplot data
 decomp_long = decomposition %>%
-  pivot_longer(cols = starts_with("Contribution"), names_to = "Contribution_Type", values_to = "Value") %>%
-  mutate(Contribution_Type = factor(Contribution_Type, levels = c("Contribution_Age_Dist", "Contribution_Death_Rate")))
+  pivot_longer(cols = starts_with("Contribution"),
+               names_to = "Contribution_Type", values_to = "Value") %>%
+  mutate(Contribution_Type = factor(Contribution_Type,
+                                    levels = c("Contribution_Age_Dist",
+                                               "Contribution_Death_Rate")))
+# give string names
+decomp_long$Contribution_Type = ifelse(decomp_long$Contribution_Type == "Contribution_Age_Dist",
+                                       "Age Distribution",
+                                       "Mortality Rate")
 
 p = ggplot(decomp_long, aes(x = Age, y = Value, fill = Contribution_Type)) +
   geom_bar(stat = "identity", position = "stack") +
-  scale_fill_manual(values = c("Contribution_Age_Dist" = "lightblue", "Contribution_Death_Rate" = "lightgreen")) +
+  scale_fill_manual(values = c("Age Distribution" = "lightblue",
+                               "Mortality Rate" = "lightgreen")) +
   labs(x = "Age Group",
        y = "Contribution",
        title = "Contributions of Death Rate and Age Comoposition ",
-       subtitle = "In explaining Palau's Higher CDR over the Cook Islands Broken Down by Age Group") +
+       subtitle = "In explaining Palau's Higher CDR over the Cook Islands Broken Down by Age Group",
+       fill = "Contribution Type") +
   theme_solarized_2() +
   theme(axis.text.x = element_text(angle = 45, hjust = 1))
 p

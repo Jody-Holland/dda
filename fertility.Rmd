@@ -12,7 +12,7 @@ In this workbook, we show how using R it is possible explore the various ways th
 
 # Loading Packages
 
-```{r load_packages, message=FALSE, error=FALSE}
+```{r load_packages, message=FALSE, warning=FALSE}
 library(tidyverse)
 library(gt)
 ```
