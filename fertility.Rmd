@@ -25,8 +25,7 @@ population_data = read_csv("data/pop_structure.csv") %>%
   filter(Year == "2015")
 life_table_female = read_csv("data/life_table_female.csv")
 lx_data = life_table_female %>% select(age, nLx)
-death_data = read_csv("data/mortality.csv") %>%
-  filter(Island == "Palau")
+death_data = read_csv("data/life_tables.csv")
 ```
 
 ## Initial Table
@@ -60,9 +59,9 @@ paste("CBR for 2015 was:", round(CBR, 2))
 
 ```{r cdr}
 # calculate cdr for 2005
-CDR = sum(death_data$Deaths) / sum(death_data$Population) * 1000
+CDR = sum(death_data$deaths) / sum(death_data$pop) * 1000
 
-paste("CDR for 2005 was:", round(CDR, 2))
+paste("CDR for 2015 was:", round(CDR, 2))
 ```
 
 # Total Fertility Rate (TFR)
