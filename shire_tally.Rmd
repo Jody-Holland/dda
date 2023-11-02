@@ -1,5 +1,5 @@
 ---
-title: Analysing the Shire's Tally S.R. 1214
+title: Analysing the Shire's Tally S.R. 1252
 output: 
   rmdformats::readthedown
 ---
@@ -16,7 +16,7 @@ The undertaking of the census spanned the course of four moons and was pursued i
 
 The findings were meticulously chronicled in a tome, destined primarily for the archives of the principal town of Michel Delving.
 
-![D-ALLE 3 - Gandalf the Grey visiting Hobbiton on Census Day (S.Y. 1252)](images/paste-10B5A17E.png)
+![DALL-E 3 - Gandalf the Grey visiting Hobbiton on Census Day (S.Y. 1252)](images/paste-10B5A17E.png)
 
 # Loading Packages
 
@@ -118,5 +118,7 @@ matriarch$asfr = matriarch$total_births /  matriarch$Population_Women
 paste("Shire Grand Childbearing Levels for S.Y. 1252: ", 
       round(sum(matriarch$asfr * 5), 2), "births per woman")
 ```
+
+![DALL-E 3, Hobbit Census Collector (Date Unknown)](images/78d785cd-d292-4df5-84dc-7afbfd356d14.webp)
 
 # [Return to Homepage](index.html)

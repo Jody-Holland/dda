@@ -17,16 +17,16 @@ Palau has a history marked by various international influences, having experienc
 
 ![](https://i.pinimg.com/736x/06/78/c8/0678c84a3b633ffe494755e33740cb9f--hard-coral-beautiful-rocks.jpg)
 
-# RMarkdown Workbooks
 
-## [Comparing TFR Estimates](tfr_plots.html)
+# [Comparing TFR Estimates](tfr_plots.html)
 
-## [Population Structure and Growth](population_structure.html)
+# [Population Structure and Growth](population_structure.html)
 
-## [Mortality](mortality.html)
+# [Mortality](mortality.html)
 
-## [Fertility and Reproduction](fertility.html)
+# [Fertility and Reproduction](fertility.html)
 
-## [Life Tables](life_tables.html)
+# [Life Tables](life_tables.html)
 
-## [Bonus Demographics of the Shire](shire_tally.html)
+# Bonus Content
+## [Demographics of the Shire in the Third Age](shire_tally.html)
